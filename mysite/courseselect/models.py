@@ -8,6 +8,9 @@ class Department(models.Model):
     d_id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name_plural = '院系'
 
@@ -48,8 +51,8 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    s_id = models.CharField(max_length=20, primary_key=True)
-    name = models.CharField(max_length=20)
+    s_id = models.CharField(max_length=20, primary_key=True, verbose_name='学号')
+    name = models.CharField(max_length=20, verbose_name='姓名')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
 
     def __str__(self):
