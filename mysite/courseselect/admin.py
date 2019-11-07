@@ -4,6 +4,10 @@ from .models import *
 # Register your models here.
 # admin 123
 
+# 自定义管理员界面标题
+admin.site.site_header = '中国科学院大学选课系统后台管理'
+admin.site.site_title = 'CourseSelectManage'
+
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
