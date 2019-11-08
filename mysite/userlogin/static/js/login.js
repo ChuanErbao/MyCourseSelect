@@ -37,12 +37,10 @@ function submit() {
                 // 'cookieDay': cookieDay
         },
         success: function(response) {
-            console.log(response.url);
-            console.log(response);
-            // if (response.res == '0') {
-            //     alert(response.msg);
-            //     return;
-            // }
+            if (response.res == '0') {
+                alert(response.msg);
+                return;
+            }
             // if (response.data[0].stu_name) {
             window.location.href = response.url;
             return;

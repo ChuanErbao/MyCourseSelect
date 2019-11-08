@@ -13,6 +13,7 @@ def forgetpassword(request):
 
 def login_check(request): 
 
+    response={}
     # 获取传入数据
     try:
         username=request.GET.get("user")
@@ -24,16 +25,19 @@ def login_check(request):
     # 获取数据库数据
     try:
         user=User.objects.get(username=username) 
+        if user.password==password:
+            response["res"]="2"
+            response["url"]="/course_select/forget_password/"
+            data=[{"stu_name","wanghualei"}]
+            response["data"]=str(data)
+        else:
+            response["res"]="0"
+            response["msg"]="密码错误"
     except:
-        print(username,"error")
-    print(user.name)
+        response["res"]="0"
+        response["msg"]="账号不存在" 
     # 返回JSON数据
-    response={}
-    response["res"]="2"
     # 需要跳转的路径，这里写成忘记密码界面
-    response["url"]="/course_select/forget_password/"
-    data=[{"stu_name","wanghualei"}]
-    response["data"]=str(data)
     # return HttpResponse(json.dumps(response),content_type='application/json')
     # Django 1.7版本之后的快捷操作
     return JsonResponse(response)
