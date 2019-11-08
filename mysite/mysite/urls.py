@@ -19,4 +19,5 @@ from django.conf.urls import url, include
 urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'', include('courseselect.urls')),
+    url(r'course_select/', include('userlogin.urls')),
 ]
