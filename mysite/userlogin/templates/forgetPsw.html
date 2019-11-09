@@ -26,6 +26,7 @@
     </ul>
   </div>
   <div class="container" id="part1">
+    <input hidden type="text" id="url" name="url" value="{% url 'user_login:forget_password_do' %}"></input>
     <p class="form-group" id="userP">
       <label for="user">校园通账号：</label>
       <input type="text" id="user" class="form-control" name="user" data-container="body" data-toggle="popover" data-placement="top" data-content="请正确输入校园通账号" required>
@@ -34,12 +35,13 @@
       <label class="checkbox-inline"><input type="radio" name="typeId" value="1" checked>学生</label>
       <label class="checkbox-inline"><input type="radio" name="typeId" value="2">老师</label>
     </p>
-     <button type="button" id="submit1" class="btn btn-primary btn-success btn-block submit" name="next">下一步 <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+    <button type="button" id="submit1" class="btn btn-primary btn-success btn-block submit" name="next">下一步 <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
   </div>
   <div class="container" id="part2">
-    <label for="tel">手机号：</label>
+    <input hidden type="text" id="url" name="url" value="{% url 'user_login:forget_password_do' %}"></input>
+    <label for="tel">邮箱：</label>
     <p class="input-group form-group" id="telP">
-      <input type="tel" id="tel" class="form-control" name="tel" readonly>
+      <input type="mail_address" id="mail_address" class="form-control" name="mail_address" readonly>
       <span class="input-group-btn">
         <button class="btn btn-default btn-success" type="button" id="sendCaptcha">发送验证码</button>
       </span>
