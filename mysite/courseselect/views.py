@@ -80,29 +80,23 @@ def score(request):
     pass
 
 
-# 教师模块
-# 教师主页，样子和学生一样，侧栏功能（查看已开设课程， 打分， 增加课程人数上限并添加学生，查看已选课学生并打印名单）
-def tea_index(request, pk):
-    tea = get_object_or_404(Teacher, pk=pk)
-    t_id = tea.t_id
-    name = tea.name
-    context = {
-        'name': name
-    }
-    return render(request, 'teacher/index.html', context=context)
+# 教师模块------------------------------------------------以下已经改动-----------------------------
+def tea_courseAnnunciate(request):
+    return render(request,'teacher/courseAnnunciate.html') 
 
+def tea_courseDelete(request):
+    return render(request,'teacher/courseDelete.html') 
 
-# 打分，使用导入成绩的方法，不然逐个填太麻烦了
-def add_score(request):
-    pass
+def tea_courseResult(request):
+    context= {}
+    context['isadmin'] = True
+    list=[]
+    list.append({"id":1,"subject_name":"数学"})
+    context['list'] = str(list)
+    return render(request,'teacher/courseResult.html',context) 
 
+def tea_mySchedule(request):
+    return render(request,'teacher/mySchedule.html') 
 
-# 添加学生，如果教师要添加学生，先判断人数是否满了，只有满了才能加学生
-# 以提交表单的方式提交学号，post的值就是学号，然后通过这个学号给学生加课程、给课程加学生、同时课程人数加一
-def add_extra_stu(request):
-    pass
-
-
-# 进入该课程查看学生信息及成绩
-def lookup(request):
-    pass
+def tea_peopleList(request):
+    return render(request,'teacher/peopleList.html') 

@@ -21,15 +21,19 @@ def login_check(request):
         username=request.GET.get("user")
         password=request.GET.get("password")
         typeId=request.GET.get("typeId")
+        print(typeId,"--------------------------------")
     except:
         return HttpResponse("参数错误！") 
 
     # 获取数据库数据
     try:
         user=User.objects.get(username=username) 
-        if user.password==password:
+        if user.password==password and str(user.role)==typeId:
             response["res"]="2"
-            response["url"]="/course_select/forget_password/"
+            if user.role==1:
+                response["url"]="/course_select/forget_password/"
+            elif user.role==2:
+                response["url"]="/select_course/teacher/courseAnnunciate"
             data=[{"stu_name","wanghualei"}]
             response["data"]=str(data)
         else:
