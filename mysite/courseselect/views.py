@@ -46,12 +46,16 @@ def stu_index(request, pk):
 
 # 查看已选择的课程
 def selected(request, pk):
-    courses = get_object_or_404(StudentCourse, student=pk)
+    courses = StudentCourse.objects.filter(student_id=pk)
     stu = get_object_or_404(Student, pk=pk)
+    courses_info = []
+    for c in courses:
+        course_info = get_object_or_404(Course, pk=c.course_id)
+        courses_info.append(course_info)
     name = stu.name
     s_id = stu.s_id
     context = {
-        'courses': courses,
+        'courses': courses_info,
         'name': name,
         'id': s_id,
     }

@@ -33,6 +33,7 @@ class Course(models.Model):
     name = models.CharField(max_length=40, verbose_name='课程名称')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
     pub_date = models.DateField(verbose_name='发布时间')
+    # students = models.ManyToManyField(Student, verbose_name='选课学生')
     teacher = models.ManyToManyField(
         Teacher,
         verbose_name="授课教师",
@@ -53,7 +54,7 @@ class Course(models.Model):
 class Student(models.Model):
     s_id = models.CharField(max_length=20, primary_key=True, verbose_name='学号')
     name = models.CharField(max_length=20, verbose_name='姓名')
-    courses = models.ManyToManyField(Course, verbose_name='已选课程', null=True)
+    # courses = models.ManyToManyField(Course, verbose_name='已选课程')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
 
     def __str__(self):
@@ -63,9 +64,23 @@ class Student(models.Model):
         verbose_name_plural = '学生'
 
 
+class Grade(models.Model):
+    g_id = models.CharField(max_length=20, primary_key=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    score = models.FloatField()
+
+    def __str__(self):
+        return self.student.name + ' 的成绩'
+
+
+# 突然意识到这个就可以做成绩表
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.student.name + '的课程及成绩'
 
 
 

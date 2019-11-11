@@ -6,5 +6,6 @@ app_name = 'courseselect'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^student/(?P<pk>[0-9]+)/index', views.stu_index, name='stu_index'),
+    url(r'^student/(?P<pk>[0-9]+)/selected', views.selected, name='selected'),
     url(r'^teacher/(?P<pk>[0-9]+)/index', views.tea_index, name='tea_index'),
 ]
