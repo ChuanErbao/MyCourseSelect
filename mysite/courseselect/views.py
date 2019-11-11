@@ -89,10 +89,12 @@ def tea_courseDelete(request):
 
 def tea_courseResult(request):
     context= {}
-    context['isadmin'] = True
+    context['isadmin'] = 1
     list=[]
-    list.append({"id":1,"subject_name":"数学"})
-    context['list'] = str(list)
+    list.append({"id":1,"subject_no":"20190128121","subject_name":"数学"
+        ,"credit":3,"place":"教学楼一","start_week":2,"end_week":18,
+        "course_section":"1,2","course_weekday":"3","check_people":"100","people_max":"120"}) 
+    context['list'] = list
     return render(request,'teacher/courseResult.html',context) 
 
 def tea_mySchedule(request):

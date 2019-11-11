@@ -15,14 +15,14 @@
 
   <div class="navigation">
     <ul>
-      <li><a class="active" href="courseAnnunciate.html"><span class="navIcon" id="annunciate"></span><p>选课公告</p></a></li>
+      <li><a class="active" href="{% url 'courseselect:tea_courseAnnunciate' %}"><span class="navIcon" id="annunciate"></span><p>选课公告</p></a></li>
       <li><a href="{% url 'courseselect:tea_courseResult' %}"><span class="navIcon" id="result"></span><p>选课结果</p></a></li>
       <li><a href="{% url 'courseselect:tea_courseDelete' %}"><span class="navIcon" id="delete"></span><p>退课</p></a></li>
-      <li><a href="{% url 'courseselect:tea_peopleList' %}"><span class="navIcon" id="schedule"></span><p>我的课表</p></a></li>
+      <li><a href="{% url 'courseselect:tea_mySchedule' %}"><span class="navIcon" id="schedule"></span><p>我的课表</p></a></li>
     </ul>
   </div>
   <div class="contain">
-    <header><h3>大学生网上选课系统</h3><span><label></label>｜<a href="#" class="safeExit">安全退出</a></span></header>
+    <header><h3>大学生网上选课系统</h3><span><label></label>｜<a href="course_select" class="safeExit">安全退出</a></span></header>
     
     <div class="main">
       <ul class="nav nav-tabs nav-justified" id="headNav">
