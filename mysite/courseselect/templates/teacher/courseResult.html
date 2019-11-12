@@ -19,17 +19,18 @@
       <li><a href="{% url 'courseselect:tea_courseAnnunciate' %}"><span class="navIcon" id="annunciate"></span><p>选课公告</p></a></li>
       <li><a class="active" href="{% url 'courseselect:tea_courseResult' %}"><span class="navIcon" id="result"></span><p>选课结果</p></a></li>
       <li><a href="{% url 'courseselect:tea_courseDelete' %}"><span class="navIcon" id="delete"></span><p>退课</p></a></li>
+      <li><a href="{% url 'courseselect:tea_courseScore' %}"><span class="navIcon" id="schedule"></span><p>成绩录入</p></a></li>
       <li><a href="{% url 'courseselect:tea_mySchedule' %}"><span class="navIcon" id="schedule"></span><p>我的课表</p></a></li>
     </ul>
   </div>
   <div class="contain">
     <header><h3>大学生网上选课系统</h3><span><label></label>｜<a href="course_select" class="safeExit">安全退出</a></span></header>
     <div class="main">
-      <ul class="nav nav-tabs nav-justified" id="headNav">
+      {% comment %} <ul class="nav nav-tabs nav-justified" id="headNav">
         <li class="active" data="openCourse"><a data-toggle="tab" href="#part1">公选课</a></li>
         <li data="labCourse"><a data-toggle="tab" href="#part2">实验课</a></li>
         <li data="dirCourse"><a data-toggle="tab" href="#part3">方向课</a></li>
-      </ul>
+      </ul> {% endcomment %}
       <div class="white">
       <div class="tab-content">
         <div id="part1" class="tab-pane fade in active">
@@ -49,9 +50,6 @@
                   
                 </div>
 
-          <!-- script 代码添加 开始-->
-                {% comment %} <script id="openValidTemplate" type="text/html"> {% endcomment %}
-                {% comment %} {% if isAdmin  %} {% endcomment %}
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover">
                       <thead>
@@ -70,7 +68,7 @@
                       </thead>
                       <tbody>
                       {% for course in list %}
-                        <tr id="<%= list[i].id%>">
+                        <tr id="{{ course.id }}">
                           <td><input type="checkbox" name="openCourse" value="{{course.id}}"></td>
                           <td>{{course.subject_no}}</td>
                           <td>{{course.subject_name }}</td>
@@ -79,16 +77,14 @@
                           <td>{{course.start_week }}～{{course.end_week}}周</td>
                           <td>{{course.course_section }}节</td>
                           <td>{{course.course_weekday }}</td>
-                          <td onclick="goList({{course.id }},'{{course.subject_name }}');"><a href="#">{{course.check_people }}</a></td>
+                          <td onclick="goList({{course.id }},'{{course.subject_name }}');">
+                          <a href="#">{{course.check_people }}</a></td>
                           <td>{{course.people_max }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
                   </div>
-                  {% comment %} {% endif %} {% endcomment %}
-                  {% comment %} </script> {% endcomment %}
-            <!-- script 代码添加 结束-->
 
                   <div>
                     <button class="btn btn-success">退课</button>
@@ -163,7 +159,7 @@
             </div><!-- panel 结束 -->
           </div><!-- panel-group 结束-->
         </div><!-- part1 结束 -->
-        <div id="part2" class="tab-pane fade">
+        {% comment %} <div id="part2" class="tab-pane fade">
           <div class="panel-group" id="accordion1">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -289,8 +285,7 @@
                   </div>
                   <% } %>
                   </script>
-            <!-- script 代码添加 结束-->
-
+            <!-- script 代码添加 结束--> 
                   <div>
                     <button class="btn btn-success">退课</button>
                   </div>
@@ -298,7 +293,8 @@
               </div>
             </div><!-- panel 结束 -->
           </div><!-- panel-group 结束-->
-        </div><!-- part3 结束 -->
+        </div><!-- part3 结束 -->{% endcomment %}
+
       </div><!-- tab-content 结束 -->
       </div><!-- white 结束 -->
     </div><!-- main 结束 -->

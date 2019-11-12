@@ -13,4 +13,5 @@ urlpatterns = [
     url('/teacher/courseResult', views.tea_courseResult, name='tea_courseResult'),
     url('/teacher/mySchedule', views.tea_mySchedule, name='tea_mySchedule'),
     url('/teacher/peopleList', views.tea_peopleList, name='tea_peopleList'),
+    url('/teacher/courseScore', views.tea_courseScore, name='tea_courseScore'),
 ]

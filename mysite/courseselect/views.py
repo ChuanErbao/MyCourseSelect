@@ -102,3 +102,15 @@ def tea_mySchedule(request):
 
 def tea_peopleList(request):
     return render(request,'teacher/peopleList.html') 
+
+def tea_courseScore(request):
+    context= {}
+    list=[]
+    student={"stu_name":"王化磊","stu_no":"1201","stu_academy":"计算机学院"}
+    students=[student,student,student,student,student,student,student,student]
+    list.append({"course_name":"数学课","course_id":"collapse_1","students":students}) 
+    student={"stu_name":"王珊珊","stu_no":"1202","stu_academy":"会计学院"}
+    students=[student,student,student,student,student,student,student,student]
+    list.append({"course_name":"会计科","course_id":"collapse_2","students":students}) 
+    context['course_all'] = list
+    return render(request,'teacher/courseScore.html',context) 
