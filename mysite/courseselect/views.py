@@ -33,46 +33,57 @@ def logout(request):
 
 # 学生模块
 # 学生主页 主欢迎加边栏功能（选课，已选课程，成绩查询）
-def stu_index(request, pk):
-    stu = get_object_or_404(Student, pk=pk)
-    name = stu.name
-    s_id = stu.s_id
-    context = {
-        'name':name,
-        'id':s_id,
-    }
-    return render(request, 'student/stu_index.html', context=context)
+def stu_index(request):
+    # 先检测登录没有，没有的话就重定向到登陆页面
+    if request.session['is_login'] is True:
+        redirect('login.html')
+    else:
+        pk = request.session['id']
+        stu = get_object_or_404(Student, pk=pk)
+        name = stu.name
+        s_id = stu.s_id
+        context = {
+            'name': name,
+            'id': s_id,
+        }
+        return render(request, 'student/stu_index.html', context=context)
 
 
 # 查看已选择的课程
-def selected(request, pk):
-    courses = StudentCourse.objects.filter(student_id=pk)
-    stu = get_object_or_404(Student, pk=pk)
-    courses_info = []
-    for c in courses:
-        course_info = get_object_or_404(Course, pk=c.course_id)
-        courses_info.append(course_info)
-    name = stu.name
-    s_id = stu.s_id
-    context = {
-        'courses': courses_info,
-        'name': name,
-        'id': s_id,
-    }
-    return render(request, 'student/selected.html', context=context)
+def selected(request):
+    if request.session['is_login'] is True:
+        redirect('login.html')
+    else:
+        pk = request.session['id']
+        courses = StudentCourse.objects.filter(student_id=pk)
+        stu = get_object_or_404(Student, pk=pk)
+        courses_info = []
+        for c in courses:
+            course_info = get_object_or_404(Course, pk=c.course_id)
+            courses_info.append(course_info)
+        name = stu.name
+        s_id = stu.s_id
+        context = {
+            'courses': courses_info,
+            'name': name,
+            'id': s_id,
+        }
+        return render(request, 'student/selected.html', context=context)
 
 
 # 进入选课页面
-def course_select(request):
-    if request.method == "GET":
-        return render(request, 'student/course_select.html')
-
-
-# 首先判断课程选满没有，是否与学生课程冲突
-# 若不满足，直接回来，然后提示框告诉他为啥
-# 若满足，课程的选课人数加一，学生已选课程增加上， 课程已选学生加上
+# 选课页面首先要把所有的课程都列出来，然后选择、提交表单
+def course_select(request, pk):
+    # 首先判断课程选满没有，是否与学生课程冲突
+    # 若不满足，直接回来，然后提示框告诉他为啥
+    # 若满足，课程的选课人数加一，学生已选课程增加上， 课程已选学生加上
     if request.method == "POST":
         redirect('')
+
+    else:
+        courses = Course.objects.all()
+        context = {'courses': courses}
+        return render(request, 'student/course_select.html', context=context)
 
 
 # 成绩查询
@@ -113,4 +124,5 @@ def tea_courseScore(request):
     students=[student,student,student,student,student,student,student,student]
     list.append({"course_name":"会计科","course_id":"collapse_2","students":students}) 
     context['course_all'] = list
-    return render(request,'teacher/courseScore.html',context) 
+    return render(request,'teacher/courseScore.html',context)
+

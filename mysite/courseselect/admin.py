@@ -9,6 +9,12 @@ admin.site.site_header = '中国科学院大学选课系统后台管理'
 admin.site.site_title = '后台管理'
 
 
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    fields = ('u_id', 'kind')
+    list_display = ('u_id', 'kind')
+    search_fields = ['u_id']
+
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     fields = ('c_id', 'name', 'teacher', 'department', 'pub_date',)
@@ -43,8 +49,9 @@ class Student(admin.ModelAdmin):
     list_filter = ['department']
     search_fields = ['name', ]
 
+
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    fields = ('d_id', 'name')
+    fields = ('name', )
     list_display = ['d_id', 'name']
     search_fields = ['name', ]

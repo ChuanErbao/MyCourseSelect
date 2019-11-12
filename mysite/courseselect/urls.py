@@ -14,4 +14,6 @@ urlpatterns = [
     url('/teacher/mySchedule', views.tea_mySchedule, name='tea_mySchedule'),
     url('/teacher/peopleList', views.tea_peopleList, name='tea_peopleList'),
     url('/teacher/courseScore', views.tea_courseScore, name='tea_courseScore'),
+    url(r'^student/(?P<pk>[0-9]+)/course_select', views.course_select, name='选课'),
+    # url(r'^teacher/(?P<pk>[0-9]+)/index', views.tea_index, name='tea_index'),
 ]
