@@ -99,7 +99,7 @@ def course_select(request):
             sc = StudentCourse.objects.create(student_id=stu_id, course_id=course_id)
             course.selected_now += 1
             sc.save()
-            redirect('')
+            return render(request, 'student/course_select.html')
 # 只显示未选课程
     else:
         pk = request.session['id']

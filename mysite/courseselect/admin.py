@@ -15,13 +15,14 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('u_id', 'kind')
     search_fields = ['u_id']
 
+
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    fields = ('c_id', 'name', 'teacher', 'department', 'pub_date',)
-    list_display = ['c_id', 'name', '授课教师', 'department', 'pub_date']
+    fields = ('name', 'teacher', 'credit', 'department', 'start_week', 'end_week', 'arr_course', 'selected_limit', 'pub_date', 'classroom')
+    list_display = ['c_id', 'name', '授课教师', 'department', '上课时间', 'credit', 'selected_now', 'selected_limit' ]
     # list_display_links = ['name']
-    list_filter = ['department']
-    search_fields = ['name', ]
+    list_filter = ['department', 'credit']
+    search_fields = ['name', 'teacher']
     filter_horizontal = ('teacher',)  # 只针对多对多
 
     # actions_on_top = True
@@ -30,6 +31,9 @@ class CourseAdmin(admin.ModelAdmin):
 
     def 授课教师(self, obj):
         return [t.name for t in obj.teacher.all()]
+
+    def 上课时间(self, obj):
+        return '第' + str(obj.start_week) + '周--第' + str(obj.end_week) + '周周' + str(obj.arr_course // 11 + 1) + '第' + str(obj.arr_course % 11 ) + '节'
 
 
 @admin.register(Teacher)
@@ -55,3 +59,9 @@ class DepartmentAdmin(admin.ModelAdmin):
     fields = ('name', )
     list_display = ['d_id', 'name']
     search_fields = ['name', ]
+
+
+@admin.register(Classroom)
+class ClassroomAdmin(admin.ModelAdmin):
+    fields = ('site', )
+    list_display = ['cm_id', 'site']

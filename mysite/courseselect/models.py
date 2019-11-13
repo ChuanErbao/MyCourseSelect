@@ -1,5 +1,7 @@
 from django.db import models
 import datetime
+from django.utils import timezone
+
 
 # Create your models here.
 
@@ -13,6 +15,7 @@ class User(models.Model):
     password = models.CharField(max_length=20, default='123')           # 用户密码
     kind = models.CharField(max_length=10, choices=attribute, default='学生', verbose_name='用户属性')  # 用户属性 教师/学生
     c_time = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(verbose_name='电子邮件', default='wangjian192@mails.ucas.edu.cn')
 
     def __str__(self):
         return self.u_id
@@ -40,11 +43,17 @@ class Classroom(models.Model):
         ('2', '教2'),
     ]
     cm_id = models.AutoField(primary_key=True, verbose_name='教室编号')
-    site = models.CharField(choices=attribute, default='教1')
+    site = models.CharField(max_length=20, choices=attribute, default='教1')
+
+    def __str__(self):
+        return self.site
+
+    class Meta:
+        verbose_name_plural = '教室'
 
 
 class Teacher(models.Model):
-    t_id = models.ForeignKey(User, primary_key=True, verbose_name='工号', on_delete=models.CASCADE)
+    t_id = models.ForeignKey(User, verbose_name='工号', on_delete=models.CASCADE)
     name = models.CharField(max_length=20, verbose_name='姓名')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
 
@@ -64,16 +73,16 @@ class Course(models.Model):
     name = models.CharField(max_length=40, verbose_name='课程名称')
     kind = models.CharField(max_length=10, choices=attribute, verbose_name='课程类别', default='必修课')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
-    # pub_date = models.DateField(verbose_name='发布时间')
+    pub_date = models.DateField(verbose_name='发布时间')
     credit = models.FloatField(verbose_name='学分')
     # 要有当前选课人数和选课人数上限
-    selected_now = models.IntegerField(verbose_name='已选课人数')
-    selected_limit = models.IntegerField(verbose_name='选课人数上限')
+    selected_now = models.IntegerField(verbose_name='已选课人数', default=0)
+    selected_limit = models.IntegerField(verbose_name='选课人数上限', )
     # students = models.ManyToManyField(Student, verbose_name='选课学生')
     # 上课时间，包括周次和节次，节次使用1-55表示
-    start_week = models.IntegerField(verbose_name='开始周次')
-    end_week = models.IntegerField(verbose_name='结束周次')
-    arr_course = models.IntegerField(verbose_name='第几节')
+    start_week = models.IntegerField(verbose_name='开始周次', default=1)
+    end_week = models.IntegerField(verbose_name='结束周次', default=20)
+    arr_course = models.IntegerField(verbose_name='第几节', default=0)
     # 上课教室
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='上课教室')
     teacher = models.ManyToManyField(
@@ -94,7 +103,7 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    s_id = models.ForeignKey(User, primary_key=True, verbose_name='学号', on_delete=models.CASCADE)
+    s_id = models.ForeignKey(User, verbose_name='学号', on_delete=models.CASCADE)
     name = models.CharField(max_length=20, verbose_name='姓名')
     courses = models.ManyToManyField(Course, verbose_name='已选课程')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')

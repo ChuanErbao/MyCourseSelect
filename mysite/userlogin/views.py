@@ -1,15 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import User
+from courseselect.models import User,Student, Teacher
 from email.mime.text import MIMEText
 import smtplib
 import json
 import random
 
+
 # Create your views here.
-def login(request): 
-    return render(request,'login.html')
+def login(request):
+    if request.method == 'POST':
+        try:
+            u_id = request.GET.get('user')
+            pwd = request.GET.get('password')
+            kind = request.GET.get('typeId')
+        except:
+            return HttpResponse('请重新输入正确的用户名和密码！')
+        request.session['id'] = u_id
+        user = User.objects.get(pk=u_id)
+        if user.kind != kind:
+            return HttpResponse('请选择正确的用户类型！')
+        else:
+            if user.password != pwd:
+                return HttpResponse('用户名或密码错误！')
+            else:
+                request.session['is_login'] = True
+                if kind == 'student':
+                    stu = Student.objects.get(pk=u_id)
+                    context = {'name': stu.name}
+                    return render(request, 'index_stu.html', context=context)
+    else:
+        return render(request, 'login.html')
+
 
 def forget_password(request): 
     return render(request,'forgetPsw.html') 
@@ -17,7 +40,6 @@ def forget_password(request):
 def login_check(request):  
     response={}
     # 获取传入数据
-    request.session[]
     try:
         username=request.GET.get("user")
         password=request.GET.get("password")

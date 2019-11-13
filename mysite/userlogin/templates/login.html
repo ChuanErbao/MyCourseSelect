@@ -15,7 +15,7 @@
     <img src="{% static '/img/LOGO2.png' %}" alt="logo">
     <div class="loginMain">
     <form action=""> 
-      <input hidden type="text" id="url" name="url" value="{% url 'user_login:login_check' %}"></input>
+      <input hidden type="text" id="url" name="url" value="{% url 'user_login:login' %}"></input>
       <p class="form-group" id="userP">
         <label for="user">校园账号：</label>
         <input type="text" id="user" class="input form-control" name="user" data-container="body" data-toggle="popover" data-placement="top" data-content="请正确输入校园账号" placeholder="学号或教职工号">
