@@ -17,6 +17,7 @@ def forget_password(request):
 def login_check(request):  
     response={}
     # 获取传入数据
+    request.session[]
     try:
         username=request.GET.get("user")
         password=request.GET.get("password")

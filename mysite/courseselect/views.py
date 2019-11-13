@@ -73,15 +73,28 @@ def selected(request):
 
 # 进入选课页面
 # 选课页面首先要把所有的课程都列出来，然后选择、提交表单
-def course_select(request, pk):
+def course_select(request):
     # 首先判断课程选满没有，是否与学生课程冲突
     # 若不满足，直接回来，然后提示框告诉他为啥
     # 若满足，课程的选课人数加一，学生已选课程增加上， 课程已选学生加上
     if request.method == "POST":
-        redirect('')
-
+        stu_id = request.session['id']
+        course_id = request.POST.get('course_id')
+        course = Course.objects.get(pk=course_id)
+        # 判断是否冲突,以及人数是否达到上限
+        if course.selected_now  < course.selected_limit:
+            sc = StudentCourse.objects.create(student_id=stu_id, course_id=course_id)
+            course.selected_now += 1
+            sc.save()
+            redirect('')
+# 只显示未选课程
     else:
+        pk = request.session['id']
+        selected_courses = StudentCourse.objects.filter(pk=pk)
         courses = Course.objects.all()
+        for sc in selected_courses:
+            if sc in courses:
+                courses.pop(sc)
         context = {'courses': courses}
         return render(request, 'student/course_select.html', context=context)
 
