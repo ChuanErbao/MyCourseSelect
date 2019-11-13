@@ -73,6 +73,18 @@ def selected(request):
 
 # 进入选课页面
 # 选课页面首先要把所有的课程都列出来，然后选择、提交表单
+# 判断是否选课冲突
+def allow(course, courses):
+    sw = course.start_week
+    ew = course.end_week
+    tm = course.arr_course
+    for c in courses:
+        if c.start_week < ew or c.end_week > sw:
+            if tm == c.arr_course:
+                return False
+    return True
+
+
 def course_select(request):
     # 首先判断课程选满没有，是否与学生课程冲突
     # 若不满足，直接回来，然后提示框告诉他为啥
@@ -81,8 +93,9 @@ def course_select(request):
         stu_id = request.session['id']
         course_id = request.POST.get('course_id')
         course = Course.objects.get(pk=course_id)
+        courses = StudentCourse.objects.filter(pk=id)
         # 判断是否冲突,以及人数是否达到上限
-        if course.selected_now  < course.selected_limit:
+        if course.selected_now < course.selected_limit and allow():
             sc = StudentCourse.objects.create(student_id=stu_id, course_id=course_id)
             course.selected_now += 1
             sc.save()

@@ -124,9 +124,8 @@ class TeacherCourse(models.Model):
         return self.teacher + '所教授的' + self.course
 
 
-# 应该怎么实现课程冲突判断
-
-
-
-
+# # 应该怎么实现课程冲突判断
+# class ClassroomTime(models.Model):
+#     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='教室')
+#     week =
 
