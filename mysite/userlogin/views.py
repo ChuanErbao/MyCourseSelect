@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.http import JsonResponse
 from courseselect.models import User, Student, Teacher
@@ -20,23 +20,23 @@ def login(request):
             request.session['id'] = u_id
             try:
                 user = User.objects.get(pk=u_id)
-                if user.kind != kind:
-                    return HttpResponse('请选择正确的用户类型！')
-                else:
-                    if user.password != pwd:
-                        return HttpResponse('用户名或密码错误！')
-                    else:
-                        request.session['is_login'] = True
-                        if kind == 'student':
-                            stu = Student.objects.get(pk=u_id)
-                            context = {'name': stu.name}
-                            return render(request, 'index_stu.html', context=context)
-                        else:
-                            tea = Teacher.objects.get(pk=u_id)
-                            context = {'name': tea.name}
-                            return render(request, 'index_stu.html', context=context)
             except:
                 return HttpResponse('用户不存在！')
+            if user.kind != kind:
+                return HttpResponse('请选择正确的用户类型！')
+            else:
+                if user.password != pwd:
+                    return HttpResponse('用户名或密码错误！')
+                else:
+                    request.session['is_login'] = True
+                    if kind == 'student':
+                        stu = get_object_or_404(Student, s_id=u_id)
+                        context = {'name': stu.name}
+                        return render(request, 'student/stu_index.html', context=context)
+                    else:
+                        tea = get_object_or_404(Teacher, t_id=u_id)
+                        context = {'name': tea.name}
+                        return render(request, 'teacher/courseAnnunciate.html', context=context)
     else:
         form = UserForm()
     return render(request, 'index.html', context={'form': form})

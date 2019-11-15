@@ -5,20 +5,6 @@ from .models import *
 # Create your views here.
 
 
-# 首页，选择用户类型
-def index(request):
-    return render(request, 'courseselect/index.html')
-
-
-# 登录模块
-def login(request):
-    if request.session.get('is_login', None):
-        return redirect('/index')
-
-    if request.method == "POST":
-        pass
-
-
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
@@ -36,7 +22,7 @@ def logout(request):
 def stu_index(request):
     # 先检测登录没有，没有的话就重定向到登陆页面
     if request.session['is_login'] is True:
-        redirect('login.html')
+        redirect('user_login:login')
     else:
         pk = request.session['id']
         stu = get_object_or_404(Student, pk=pk)
@@ -52,7 +38,7 @@ def stu_index(request):
 # 查看已选择的课程
 def selected(request):
     if request.session['is_login'] is True:
-        redirect('login.html')
+        redirect('user_login:login')
     else:
         pk = request.session['id']
         courses = StudentCourse.objects.filter(student_id=pk)

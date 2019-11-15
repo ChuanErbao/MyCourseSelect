@@ -13,7 +13,7 @@ class User(models.Model):
     )
     u_id = models.CharField(max_length=20, unique=True, primary_key=True, verbose_name='用户名')  # 用户名（学号/工号）
     password = models.CharField(max_length=20, default='123')           # 用户密码
-    kind = models.CharField(max_length=10, choices=attribute, default='学生', verbose_name='用户属性')  # 用户属性 教师/学生
+    kind = models.CharField(max_length=10, choices=attribute, default='teacher', verbose_name='用户属性')  # 用户属性 教师/学生
     c_time = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(verbose_name='电子邮件', default='wangjian192@mails.ucas.edu.cn')
 
