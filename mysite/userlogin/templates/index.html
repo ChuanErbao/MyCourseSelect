@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国科大网上选课系统</title>
+      <link href="{% static '/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="{% static '/css/login.css' %}">
+      <link rel="shortcut icon" href="{% static '/img/favicon.ico' %}">
+</head>
+<body>
+  <h1>大学生网上选课系统</h1>
+  <div class="bgImg">
+    <img src="{% static '/img/LOGO2.png' %}" alt="logo">
+    <div class="loginMain">
+    <form action="", method="post">
+     {% csrf_token %}
+        {{ form }}
+        <a href="{% url 'user_login:forget_password' %}">忘记密码？</a>
+        <input type="checkbox" id="remember" name="remember"> <label for="remember">记住我</label>
+        <input type="submit" class="btn btn-primary btn-success btn-block" value="登录"></input>
+    </form>
+    </div>
+  </div>
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="{% static '/bootstrap/js/jquery-3.1.1.min.js' %}"></script>
+  <!-- 包括所有已编译的插件 -->
+  <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/js/login.js' %}"></script></body>
+</html>

@@ -1,79 +1,87 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-from courseselect.models import User,Student, Teacher
+from courseselect.models import User, Student, Teacher
 from email.mime.text import MIMEText
 import smtplib
 import json
 import random
+from .forms import UserForm
 
 
 # Create your views here.
 def login(request):
     if request.method == 'POST':
-        try:
-            u_id = request.GET.get('user')
-            pwd = request.GET.get('password')
-            kind = request.GET.get('typeId')
-        except:
-            return HttpResponse('请重新输入正确的用户名和密码！')
-        request.session['id'] = u_id
-        user = User.objects.get(pk=u_id)
-        if user.kind != kind:
-            return HttpResponse('请选择正确的用户类型！')
-        else:
-            if user.password != pwd:
-                return HttpResponse('用户名或密码错误！')
-            else:
-                request.session['is_login'] = True
-                if kind == 'student':
-                    stu = Student.objects.get(pk=u_id)
-                    context = {'name': stu.name}
-                    return render(request, 'index_stu.html', context=context)
+        form = UserForm(request.POST)
+        if form.is_valid():
+            u_id = form.cleaned_data['username']
+            pwd = form.cleaned_data['password']
+            kind = form.cleaned_data['kind']
+            request.session['id'] = u_id
+            try:
+                user = User.objects.get(pk=u_id)
+                if user.kind != kind:
+                    return HttpResponse('请选择正确的用户类型！')
+                else:
+                    if user.password != pwd:
+                        return HttpResponse('用户名或密码错误！')
+                    else:
+                        request.session['is_login'] = True
+                        if kind == 'student':
+                            stu = Student.objects.get(pk=u_id)
+                            context = {'name': stu.name}
+                            return render(request, 'index_stu.html', context=context)
+                        else:
+                            tea = Teacher.objects.get(pk=u_id)
+                            context = {'name': tea.name}
+                            return render(request, 'index_stu.html', context=context)
+            except:
+                return HttpResponse('用户不存在！')
     else:
-        return render(request, 'login.html')
+        form = UserForm()
+    return render(request, 'index.html', context={'form': form})
 
 
 def forget_password(request): 
     return render(request,'forgetPsw.html') 
 
-def login_check(request):  
-    response={}
-    # 获取传入数据
-    try:
-        username=request.GET.get("user")
-        password=request.GET.get("password")
-        typeId=request.GET.get("typeId")
-        print(typeId,"--------------------------------")
-    except:
-        return HttpResponse("参数错误！") 
-
-    # 获取数据库数据
-    try:
-        user=User.objects.get(username=username) 
-        if user.password==password and str(user.role)==typeId:
-            response["res"]="2"
-            if user.role==1:
-                response["url"]="/course_select/forget_password/"
-            elif user.role==2:
-                response["url"]="/select_course/teacher/courseAnnunciate"
-            data=[{"stu_name","wanghualei"}]
-            response["data"]=str(data)
-        else:
-            response["res"]="0"
-            response["msg"]="密码错误"
-    except:
-        response["res"]="0"
-        response["msg"]="账号不存在" 
-    # 返回JSON数据
-    # 需要跳转的路径，这里写成忘记密码界面
-    # return HttpResponse(json.dumps(response),content_type='application/json')
-    # Django 1.7版本之后的快捷操作
-    return JsonResponse(response)
-
+# def login_check(request):
+#     response={}
+#     # 获取传入数据
+#     try:
+#         username=request.GET.get("user")
+#         password=request.GET.get("password")
+#         typeId=request.GET.get("typeId")
+#         print(typeId,"--------------------------------")
+#     except:
+#         return HttpResponse("参数错误！")
+#
+#     # 获取数据库数据
+#     try:
+#         user=User.objects.get(username=username)
+#         if user.password==password and str(user.role)==typeId:
+#             response["res"]="2"
+#             if user.role==1:
+#                 response["url"]="/course_select/forget_password/"
+#             elif user.role==2:
+#                 response["url"]="/select_course/teacher/courseAnnunciate"
+#             data=[{"stu_name","wanghualei"}]
+#             response["data"]=str(data)
+#         else:
+#             response["res"]="0"
+#             response["msg"]="密码错误"
+#     except:
+#         response["res"]="0"
+#         response["msg"]="账号不存在"
+#     # 返回JSON数据
+#     # 需要跳转的路径，这里写成忘记密码界面
+#     # return HttpResponse(json.dumps(response),content_type='application/json')
+#     # Django 1.7版本之后的快捷操作
+#     return JsonResponse(response)
 
 
 verification =""
+
 def forget_password_do(request):
     global verification
     response={}
