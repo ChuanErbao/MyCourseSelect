@@ -8,21 +8,21 @@ from .models import *
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
-        return redirect("/index/")
+        return redirect('user_login:login')
     request.session.flush()
     # 或者使用下面的方法
     # del request.session['is_login']
     # del request.session['user_id']
     # del request.session['user_name']
-    return redirect("/index/")
+    return redirect('user_login:login')
 
 
 # 学生模块
 # 学生主页 主欢迎加边栏功能（选课，已选课程，成绩查询）
 def stu_index(request):
     # 先检测登录没有，没有的话就重定向到登陆页面
-    if request.session['is_login'] is True:
-        redirect('user_login:login')
+    if request.session['is_login'] is not True:
+        return render(request, 'courseselect/index.html')
     else:
         pk = request.session['id']
         stu = get_object_or_404(Student, pk=pk)
@@ -32,21 +32,21 @@ def stu_index(request):
             'name': name,
             'id': s_id,
         }
-        return render(request, 'student/stu_index.html', context=context)
+        return render(request, 'student/courseAnnunciate.html', context=context)
 
 
 # 查看已选择的课程
 def selected(request):
-    if request.session['is_login'] is True:
+    if request.session['is_login'] is not True:
         redirect('user_login:login')
     else:
         pk = request.session['id']
-        courses = StudentCourse.objects.filter(student_id=pk)
-        stu = get_object_or_404(Student, pk=pk)
+        courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
+        stu = get_object_or_404(Student, s_id=pk)
         courses_info = []
         for c in courses:
-            course_info = get_object_or_404(Course, pk=c.course_id)
-            courses_info.append(course_info)
+            course_info = c.course
+            courses_info.append([course_info, c.attribute])
         name = stu.name
         s_id = stu.s_id
         context = {
@@ -54,7 +54,7 @@ def selected(request):
             'name': name,
             'id': s_id,
         }
-        return render(request, 'student/selected.html', context=context)
+        return render(request, 'student/courseResult.html', context=context)
 
 
 # 进入选课页面

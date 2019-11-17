@@ -66,12 +66,12 @@ class Teacher(models.Model):
 
 class Course(models.Model):
     c_id = models.AutoField(primary_key=True, verbose_name='课程id')
-    attribute = [
-        ('compulsory', '必修课'),
-        ('elective', '选修课')
-    ]
+    # attribute = [
+    #     ('学位课', '学位课'),
+    #     ('非学位课', '非学位课')
+    # ]
     name = models.CharField(max_length=40, verbose_name='课程名称')
-    kind = models.CharField(max_length=10, choices=attribute, verbose_name='课程类别', default='必修课')
+    # kind = models.CharField(max_length=10, choices=attribute, verbose_name='课程类别', default='学位课')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
     pub_date = models.DateField(verbose_name='发布时间')
     credit = models.FloatField(verbose_name='学分')
@@ -93,6 +93,15 @@ class Course(models.Model):
 
     def set_pub_date(self):
         self.pub_date = datetime.time
+
+    def teacherlist(self):
+        return [t.name for t in self.teacher.all()]
+
+    def get_weekday(self):
+        return self.arr_course // 11 + 1;
+
+    def get_num(self):
+        return self.arr_course % 11;
 
     class Meta:
         ordering = ['pub_date', 'department']
@@ -117,12 +126,20 @@ class Student(models.Model):
 
 # 突然意识到这个就可以做成绩表
 class StudentCourse(models.Model):
+    choice = [
+        ('is', 'is'),
+        ('not', 'not'),
+    ]
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     grade = models.FloatField(verbose_name='成绩', default='0')
+    attribute = models.CharField(verbose_name='学位课',max_length=10,  choices=choice, default='not')
 
     def __str__(self):
         return self.student.name + '的课程及成绩'
+
+    class Meta:
+        verbose_name_plural = '选课及成绩'
 
 
 class TeacherCourse(models.Model):

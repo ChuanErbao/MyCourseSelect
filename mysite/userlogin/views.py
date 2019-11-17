@@ -32,7 +32,7 @@ def login(request):
                     if kind == 'student':
                         stu = get_object_or_404(Student, s_id=u_id)
                         context = {'name': stu.name}
-                        return render(request, 'student/stu_index.html', context=context)
+                        return render(request, 'student/courseAnnunciate.html', context=context)
                     else:
                         tea = get_object_or_404(Teacher, t_id=u_id)
                         context = {'name': tea.name}

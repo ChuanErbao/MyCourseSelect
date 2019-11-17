@@ -5,8 +5,8 @@ app_name = 'courseselect'
 
 urlpatterns = [
     # url(r'^$', views.index, name='index'),
-    url(r'^student/(?P<pk>[0-9]+)/index', views.stu_index, name='stu_index'),
-    url(r'^student/(?P<pk>[0-9]+)/selected', views.selected, name='selected'),
+    url('course_select/index', views.stu_index, name='stu_index'),
+    url('course_select/courseResult.html', views.selected, name='selected'),
     
     url('/teacher/courseAnnunciate', views.tea_courseAnnunciate, name='tea_courseAnnunciate'),
     url('/teacher/courseDelete', views.tea_courseDelete, name='tea_courseDelete'),

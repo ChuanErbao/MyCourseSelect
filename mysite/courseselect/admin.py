@@ -65,3 +65,9 @@ class DepartmentAdmin(admin.ModelAdmin):
 class ClassroomAdmin(admin.ModelAdmin):
     fields = ('site', )
     list_display = ['cm_id', 'site']
+
+
+@admin.register(StudentCourse)
+class GradeAdmin(admin.ModelAdmin):
+    fields = ('student', 'course', 'grade', 'attribute', )
+    list_display = ['student', 'course', 'grade', 'attribute', ]
