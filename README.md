@@ -9,6 +9,14 @@ user: admin
 
 passwd: 123
 
+# 学生用户
+user： 201928015059034
+passwd：123
+
+# 教师用户
+user：1、2、3
+passwd：123
+
 ## django版本
 
 2.1.8
@@ -16,5 +24,7 @@ passwd: 123
 安装：
 ```
 pip install django==2.1.8
+pip install django-import-export
 ```
 使用django-simpleui美化管理员界面
+使用django-import-export进行文件上传下载
