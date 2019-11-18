@@ -1,4 +1,6 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
+from .resource import UserResource, StudentResource, TeacherResource, CourseResource
 from .models import *
 
 # Register your models here.
@@ -10,20 +12,22 @@ admin.site.site_title = '后台管理'
 
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(ImportExportModelAdmin):
     fields = ('u_id', 'kind')
     list_display = ('u_id', 'kind')
     search_fields = ['u_id']
+    resource_class = UserResource
 
 
 @admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
+class CourseAdmin(ImportExportModelAdmin):
     fields = ('name', 'teacher', 'credit', 'department', 'start_week', 'end_week', 'arr_course', 'selected_limit', 'pub_date', 'classroom')
     list_display = ['c_id', 'name', '授课教师', 'department', '上课时间', 'credit', 'selected_now', 'selected_limit' ]
     # list_display_links = ['name']
     list_filter = ['department', 'credit']
     search_fields = ['name', 'teacher']
     filter_horizontal = ('teacher',)  # 只针对多对多
+    resource_class = CourseResource
 
     # actions_on_top = True
     # actions_on_bottom = True
@@ -37,21 +41,23 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 @admin.register(Teacher)
-class TeacherAdmin(admin.ModelAdmin):
+class TeacherAdmin(ImportExportModelAdmin):
     fields = ('t_id', 'name', 'department')
     list_display = ['t_id', 'name', 'department']
     list_filter = ['department']
     search_fields = ['name', ]
+    resource_class = TeacherResource
 
     # 可以写一个课程数量统计
 
 
 @admin.register(Student)
-class Student(admin.ModelAdmin):
+class Student(ImportExportModelAdmin):
     fields = ('s_id', 'name', 'department')
     list_display = ['s_id', 'name', 'department']
     list_filter = ['department']
     search_fields = ['name', ]
+    resource_class = StudentResource
 
 
 @admin.register(Department)
@@ -71,3 +77,5 @@ class ClassroomAdmin(admin.ModelAdmin):
 class GradeAdmin(admin.ModelAdmin):
     fields = ('student', 'course', 'grade', 'attribute', )
     list_display = ['student', 'course', 'grade', 'attribute', ]
+
+

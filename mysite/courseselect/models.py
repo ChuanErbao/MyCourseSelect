@@ -73,7 +73,7 @@ class Course(models.Model):
     name = models.CharField(max_length=40, verbose_name='课程名称')
     # kind = models.CharField(max_length=10, choices=attribute, verbose_name='课程类别', default='学位课')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')
-    pub_date = models.DateField(verbose_name='发布时间')
+    pub_date = models.DateField(verbose_name='发布时间', default=timezone.now)
     credit = models.FloatField(verbose_name='学分')
     # 要有当前选课人数和选课人数上限
     selected_now = models.IntegerField(verbose_name='已选课人数', default=0)

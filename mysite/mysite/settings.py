@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'simpleui',
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,3 +125,7 @@ STATIC_URL = '/static/'
 
 # 配置simpleui时添加的
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+
+# 配置import-export时添加的
+IMPORT_EXPORT_USE_TRANSACTIONS = True
