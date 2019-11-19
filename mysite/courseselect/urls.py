@@ -4,10 +4,12 @@ from . import views
 app_name = 'courseselect'
 
 urlpatterns = [
-    # url(r'^$', views.index, name='index'),
-    url('course_select/index', views.stu_index, name='stu_index'),
-    url('course_select/courseResult.html', views.selected, name='selected'),
-    
+    url(r'^$', views.login, name='index'),
+    url('logout', views.logout, name='logout'),
+    url('student/index', views.stu_index, name='stu_index'),
+    url('student/courseResult.html', views.selected, name='selected'),
+    url('student/courseOnline', views.course_select, name='select'),
+
     url('teacher/downloadFile', views.tea_download_file, name='tea_download_file'),
     url('teacher/courseAnnunciate', views.tea_courseAnnunciate, name='tea_courseAnnunciate'),
     url('teacher/courseDelete', views.tea_courseDelete, name='tea_courseDelete'),

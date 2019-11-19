@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect
 from .models import *
+from .forms import UserForm
 from django.conf import settings
 import os
 import csv
@@ -13,17 +14,51 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
+# def index(request):
+#     return redirect('user_login:login')
+
+def login(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            u_id = form.cleaned_data['username']
+            pwd = form.cleaned_data['password']
+            kind = form.cleaned_data['kind']
+            request.session['id'] = u_id
+            try:
+                user = User.objects.get(pk=u_id)
+            except:
+                return HttpResponse('用户不存在！')
+            if user.kind != kind:
+                return HttpResponse('请选择正确的用户类型！')
+            else:
+                if user.password != pwd:
+                    return HttpResponse('用户名或密码错误！')
+                else:
+                    request.session['is_login'] = True
+                    if kind == 'student':
+                        stu = get_object_or_404(Student, s_id=u_id)
+                        context = {'name': stu.name}
+                        return redirect('courseselect:stu_index')
+                    else:
+                        tea = get_object_or_404(Teacher, t_id=u_id)
+                        context = {'name': tea.name}
+                        return render(request, 'teacher/courseAnnunciate.html', context=context)
+    else:
+        form = UserForm()
+    return render(request, 'courseselect/index.html', context={'form': form})
+
 
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
-        return redirect('user_login:login')
+        return redirect('courseselect:index')
     request.session.flush()
     # 或者使用下面的方法
     # del request.session['is_login']
     # del request.session['user_id']
     # del request.session['user_name']
-    return redirect('user_login:login')
+    return redirect('courseselect:index')
 
 
 # 学生模块
@@ -31,15 +66,17 @@ def logout(request):
 def stu_index(request):
     # 先检测登录没有，没有的话就重定向到登陆页面
     if request.session['is_login'] is not True:
-        return render(request, 'courseselect/index.html')
+        return redirect('courseselect:index')
     else:
         pk = request.session['id']
-        stu = get_object_or_404(Student, pk=pk)
+        stu = get_object_or_404(Student, s_id=pk)
         name = stu.name
         s_id = stu.s_id
+        time = StartDate.objects.all()[0]
         context = {
             'name': name,
             'id': s_id,
+            'time': time
         }
         return render(request, 'student/courseAnnunciate.html', context=context)
 
@@ -47,7 +84,7 @@ def stu_index(request):
 # 查看已选择的课程
 def selected(request):
     if request.session['is_login'] is not True:
-        redirect('user_login:login')
+        redirect('courseselect:index')
     else:
         pk = request.session['id']
         courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
@@ -97,14 +134,17 @@ def course_select(request):
             return render(request, 'student/course_select.html')
 # 只显示未选课程
     else:
+        if request.session.get('is_login', None) is None:
+            return redirect('courseselect:index')
         pk = request.session['id']
-        selected_courses = StudentCourse.objects.filter(pk=pk)
+        stu = get_object_or_404(Student, s_id=pk)
+        selected_courses = StudentCourse.objects.filter(student_id=pk)
         courses = Course.objects.all()
         for sc in selected_courses:
-            if sc in courses:
-                courses.pop(sc)
-        context = {'courses': courses}
-        return render(request, 'student/course_select.html', context=context)
+            if sc.course in courses:
+                courses.pop(sc.course)
+        context = {'courses': courses, 'name': stu.name}
+        return render(request, 'student/courseOnline.html', context=context)
 
 
 # 成绩查询

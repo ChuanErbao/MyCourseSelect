@@ -79,3 +79,10 @@ class GradeAdmin(admin.ModelAdmin):
     list_display = ['student', 'course', 'grade', 'attribute', ]
 
 
+@admin.register(StartDate)
+class StartDateAdmin(admin.ModelAdmin):
+    fields = ('check_time', )
+    list_display = ['check_time', ]
+
+
+

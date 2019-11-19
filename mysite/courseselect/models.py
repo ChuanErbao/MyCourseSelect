@@ -150,6 +150,14 @@ class TeacherCourse(models.Model):
         return self.teacher + '所教授的' + self.course
 
 
+class StartDate(models.Model):
+    check_time = models.DateTimeField(verbose_name='选课开始时间')
+
+    class Meta:
+        verbose_name_plural = '选课开始时间'
+        verbose_name = '选课开始时间'
+
+
 # # 应该怎么实现课程冲突判断
 # class ClassroomTime(models.Model):
 #     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='教室')
