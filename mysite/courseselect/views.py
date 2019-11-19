@@ -1,6 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import HttpResponse
 from .models import *
+from django.conf import settings
+import os
+import csv
+import xlwt
+from django.http import JsonResponse
+import xlrd
+from django.http import FileResponse 
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -104,37 +113,175 @@ def score(request):
 
 
 # 教师模块------------------------------------------------以下已经改动-----------------------------
+
+# 选课公告
 def tea_courseAnnunciate(request):
     return render(request,'teacher/courseAnnunciate.html') 
 
+# 退课情况
 def tea_courseDelete(request):
     return render(request,'teacher/courseDelete.html') 
 
+# 选课结果
 def tea_courseResult(request):
     context= {}
     context['isadmin'] = 1
     list=[]
-    list.append({"id":1,"subject_no":"20190128121","subject_name":"数学"
+    list.append({"id":1,"course_no":"20190128121","subject_name":"数学"
         ,"credit":3,"place":"教学楼一","start_week":2,"end_week":18,
         "course_section":"1,2","course_weekday":"3","check_people":"100","people_max":"120"}) 
     context['list'] = list
     return render(request,'teacher/courseResult.html',context) 
 
+# 教师课表
 def tea_mySchedule(request):
-    return render(request,'teacher/mySchedule.html') 
+    context= {}
+    courses=[]
+    week_course=["数学","","","","","",""]
+    courses.append(week_course)
+    week_course=["","","","","","英语",""]
+    courses.append(week_course)
+    week_course=["","","","","","",""]
+    courses.append(week_course)
+    week_course=["","","","","","",""]
+    courses.append(week_course)
+    week_course=["数学","","","","","",""]
+    courses.append(week_course)
+    week_course=["","","","","","英语",""]
+    courses.append(week_course)
+    week_course=["数学","","","","","",""]
+    courses.append(week_course)
+    context["courses"]=courses
+    return render(request,'teacher/mySchedule.html',context) 
 
-def tea_peopleList(request):
-    return render(request,'teacher/peopleList.html') 
+# 
+# def tea_peopleList(request):
+#     return render(request,'teacher/peopleList.html') 
 
+# 选课成绩录入界面
 def tea_courseScore(request):
     context= {}
     list=[]
     student={"stu_name":"王化磊","stu_no":"1201","stu_academy":"计算机学院"}
-    students=[student,student,student,student,student,student,student,student]
-    list.append({"course_name":"数学课","course_id":"collapse_1","students":students}) 
+    students=[student,student,student,student,student,student,student,student,student,student,student,student,student,student,student]
+    list.append({"course_name":"数学课","course_no":"20190101","students":students}) 
     student={"stu_name":"王珊珊","stu_no":"1202","stu_academy":"会计学院"}
     students=[student,student,student,student,student,student,student,student]
-    list.append({"course_name":"会计科","course_id":"collapse_2","students":students}) 
+    list.append({"course_name":"会计科","course_no":"20190102","students":students}) 
     context['course_all'] = list
     return render(request,'teacher/courseScore.html',context)
 
+# def tea_setScore(request):
+#     # 获取浏览器传来的信息-学生学号，课程号，分数 
+#     return render(request,'teacher/courseScore.html')
+
+# 返回录入课程成绩模板
+def tea_download_file(request):
+    # 获取教师编号，课程编号
+    course_no=api=request.GET.get("course_no")
+    # 根据课程编号获取数据库中的学生选课数据
+    # 根据数据生成相应的文件（学生学号，学生姓名，成绩（空）），并保存文件
+    # 将保存的文件返回，即该文件就是用户需要下载的登录成绩的模板文件
+
+    curPath = os.path.abspath(os.path.dirname(__file__)) 
+    filename='2019121_course.xls'
+    file = "templates/"+filename 
+    filepath = os.path.join(curPath, file)   
+
+    # 因为输入都是Unicode字符，这里使用utf-8，免得来回转换
+    workbook = xlwt.Workbook(encoding='utf-8')
+    booksheet = workbook.add_sheet('Sheet 1', cell_overwrite_ok=True)
+
+    booksheet.write(0, 0, "学号")
+    booksheet.write(0, 1, "姓名")
+    booksheet.write(0, 2, "成绩")
+
+    for i in range(1,100):
+        booksheet.write(i, 0, "21212121")
+        booksheet.write(i, 1, "王化磊")
+        booksheet.write(i, 2, "")  
+
+    # 保存文件
+    workbook.save(filepath)
+
+    fp = open(filepath, 'rb')
+    response =FileResponse(fp)  
+    response['Content-Type']='application/octet-stream'  
+    response['Content-Disposition']='attachment;filename="'+filename+'"'
+    print('attachment;filename='+'"'+filename+'"')
+    print(response['Content-Disposition'])
+    return response
+    fp.close() 
+
+# 根据教师上传的课程成绩表将成绩录入数据库
+@csrf_exempt
+def tea_uploadScore(request):
+    # 1 获取前端传输的文件对象,并将其写入内存
+    file_obj = request.FILES.get('file')  
+    print(request.POST.get('course_no'))
+    file="templates/"+file_obj.name
+    curPath = os.path.abspath(os.path.dirname(__file__)) 
+    path = os.path.join(curPath, file)
+    fp = open(path, 'wb+')
+    # chunks将对应的文件数据转换成若干片段, 分段写入, 可以有效提 高文件的写入速度, 适用于2.5M以上的文件
+    for chunk in file_obj.chunks():
+        fp.write(chunk)
+    fp.close() 
+
+    # 2 读取写入的文件，解析、判断、写入数据库 
+    
+    # 2.1 获取工作表list。
+    mySheets = xlrd.open_workbook(path).sheets()             
+    # 2.2 通过索引顺序获取。    
+    mySheet = mySheets[0]
+    # 2.3 获取行数与列数 
+    nrows = mySheet.nrows
+    ncols = mySheet.ncols
+ 
+    for row in range(0,nrows-1):
+        for col in range(0,ncols-1):
+            myCell = mySheet.cell_value(row, col) 
+            print(myCell)
+
+    # 给服务器返回信息
+    response={}
+    response['msg']="操作成功"
+    return JsonResponse(response)
+
+
+# 获取课程对应的选课学生信息
+def tea_getStuMsg(request):
+    # 1 获取课程编号
+    course_no=request.GET.get("course_no")
+    # 2 根据课程编号获取对应课程的学生信息
+
+    # 3 将学生信息写入文件
+    curPath = os.path.abspath(os.path.dirname(__file__)) 
+    filename=course_no+'_course_stuMsg.xls'
+    file = "templates/"+filename 
+    filepath = os.path.join(curPath, file)   
+
+    # 因为输入都是Unicode字符，这里使用utf-8，免得来回转换
+    workbook = xlwt.Workbook(encoding='utf-8')
+    booksheet = workbook.add_sheet('Sheet 1', cell_overwrite_ok=True)
+
+    booksheet.write(0, 0, "学号")
+    booksheet.write(0, 1, "姓名") 
+
+    for i in range(1,100):
+        booksheet.write(i, 0, "21212121")
+        booksheet.write(i, 1, "王化磊") 
+
+    # 保存文件
+    workbook.save(filepath)
+
+    # 4将文件返回给请求源
+
+    fp = open(filepath, 'rb')
+    response =FileResponse(fp)  
+    response['Content-Type']='application/octet-stream'  
+    response['Content-Disposition']='attachment;filename="'+filename+'"'
+    # print('attachment;filename='+'"'+filename+'"')
+    # print(response['Content-Disposition'])
+    return response
+    fp.close() 
