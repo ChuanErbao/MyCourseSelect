@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import UserForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 import os
 import csv
@@ -133,6 +134,7 @@ def course_select(request):
             sc.save()
             return render(request, 'student/course_select.html')
 # 只显示未选课程
+# 实现分页功能
     else:
         if request.session.get('is_login', None) is None:
             return redirect('courseselect:index')
@@ -143,6 +145,9 @@ def course_select(request):
         for sc in selected_courses:
             if sc.course in courses:
                 courses.pop(sc.course)
+        paginator = Paginator(courses, 2)
+        page = request.GET.get('page')
+        courses = paginator.get_page(page)
         context = {'courses': courses, 'name': stu.name}
         return render(request, 'student/courseOnline.html', context=context)
 
