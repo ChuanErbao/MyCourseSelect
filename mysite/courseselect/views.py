@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import UserForm
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 import os
@@ -84,22 +85,29 @@ def stu_index(request):
 
 # 查看已选择的课程
 def selected(request):
-    if request.session['is_login'] is not True:
+    if request.session.get('is_login') is None:
         redirect('courseselect:index')
     else:
         pk = request.session['id']
         courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
         stu = get_object_or_404(Student, s_id=pk)
+        total_credit = 0
+        degree_credit = 0
         courses_info = []
         for c in courses:
+            if c.attribute == 'is':
+                degree_credit += c.course.credit
+            total_credit += c.course.credit
             course_info = c.course
             courses_info.append([course_info, c.attribute])
         name = stu.name
         s_id = stu.s_id
         context = {
             'courses': courses_info,
-            'name': name,
+            'stu': stu,
             'id': s_id,
+            'total_credit': total_credit,
+            'degree_credit': degree_credit,
         }
         return render(request, 'student/courseResult.html', context=context)
 
@@ -140,22 +148,54 @@ def course_select(request):
             return redirect('courseselect:index')
         pk = request.session['id']
         stu = get_object_or_404(Student, s_id=pk)
-        selected_courses = StudentCourse.objects.filter(student_id=pk)
+        selected_courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
         courses = Course.objects.all()
         for sc in selected_courses:
             if sc.course in courses:
-                courses.pop(sc.course)
+                courses = courses.exclude(c_id=sc.course.c_id)
         paginator = Paginator(courses, 2)
         page = request.GET.get('page')
         courses = paginator.get_page(page)
-        context = {'courses': courses, 'name': stu.name}
+        context = {'courses': courses, 'name': stu.name, 'selected_courses': selected_courses, }
         return render(request, 'student/courseOnline.html', context=context)
 
 
 # 成绩查询
-def score(request):
+def grade(request):
     pass
 
+
+# 查看课表并下载
+def get_schedule(request):
+    if request.session.get('is_login') is not True:
+        redirect('courseselect:index')
+    stu = get_object_or_404(Student, s_id=request.session['id'])
+    context = {
+        'name': stu.name,
+    }
+    return render(request, 'student/mySchedule.html', context=context)
+
+
+# 设为非学位课
+def set_no_degree(request, s_id, c_id):
+    c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+    c.attribute = 'not'
+    c.save()
+    return redirect(reverse('courseselect:selected'))
+
+# 设为非学位课
+def set_degree(request, s_id, c_id):
+    c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+    c.attribute = 'is'
+    c.save()
+    return redirect(reverse('courseselect:selected'))
+
+
+# 退选
+def drop_course(request, s_id, c_id):
+    c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+    c.delete()
+    return redirect(reverse('courseselect:selected'))
 
 # 教师模块------------------------------------------------以下已经改动-----------------------------
 

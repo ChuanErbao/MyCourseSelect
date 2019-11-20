@@ -9,6 +9,10 @@ urlpatterns = [
     url('student/index', views.stu_index, name='stu_index'),
     url('student/courseResult.html', views.selected, name='selected'),
     url('student/courseOnline', views.course_select, name='select'),
+    url('student/schdule', views.get_schedule, name='schedule'),
+    url(r'^student/setnodegree/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.set_no_degree, name='setnodegree'),
+    url(r'^student/setdegree/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.set_degree, name='setdegree'),
+    url(r'^student/drop/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.drop_course, name='dropcourse'),
 
     url('teacher/downloadFile', views.tea_download_file, name='tea_download_file'),
     url('teacher/courseAnnunciate', views.tea_courseAnnunciate, name='tea_courseAnnunciate'),
