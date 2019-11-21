@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from .models import *
-from .forms import UserForm
+from .forms import UserForm, SearchForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
@@ -114,50 +114,30 @@ def selected(request):
 
 # 进入选课页面
 # 选课页面首先要把所有的课程都列出来，然后选择、提交表单
-# 判断是否选课冲突
-def allow(course, courses):
-    sw = course.start_week
-    ew = course.end_week
-    tm = course.arr_course
-    for c in courses:
-        if c.start_week < ew or c.end_week > sw:
-            if tm == c.arr_course:
-                return False
-    return True
 
 
 def course_select(request):
-    # 首先判断课程选满没有，是否与学生课程冲突
-    # 若不满足，直接回来，然后提示框告诉他为啥
-    # 若满足，课程的选课人数加一，学生已选课程增加上， 课程已选学生加上
     if request.method == "POST":
-        stu_id = request.session['id']
-        course_id = request.POST.get('course_id')
-        course = Course.objects.get(pk=course_id)
-        courses = StudentCourse.objects.filter(pk=id)
-        # 判断是否冲突,以及人数是否达到上限
-        if course.selected_now < course.selected_limit and allow():
-            sc = StudentCourse.objects.create(student_id=stu_id, course_id=course_id)
-            course.selected_now += 1
-            sc.save()
-            return render(request, 'student/course_select.html')
-# 只显示未选课程
-# 实现分页功能
+        s_form = SearchForm(request.POST)
+        if s_form.is_valid():
+            content = s_form.cleaned_data['content']
+            courses = Course.objects.filter(name__contains=content)
     else:
-        if request.session.get('is_login', None) is None:
-            return redirect('courseselect:index')
-        pk = request.session['id']
-        stu = get_object_or_404(Student, s_id=pk)
-        selected_courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
         courses = Course.objects.all()
-        for sc in selected_courses:
-            if sc.course in courses:
-                courses = courses.exclude(c_id=sc.course.c_id)
-        paginator = Paginator(courses, 2)
-        page = request.GET.get('page')
-        courses = paginator.get_page(page)
-        context = {'courses': courses, 'name': stu.name, 'selected_courses': selected_courses, }
-        return render(request, 'student/courseOnline.html', context=context)
+    if request.session.get('is_login', None) is None:
+        return redirect('courseselect:index')
+    pk = request.session['id']
+    form = SearchForm()
+    stu = get_object_or_404(Student, s_id=pk)
+    selected_courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
+    for sc in selected_courses:
+        if sc.course in courses:
+            courses = courses.exclude(c_id=sc.course.c_id)
+    paginator = Paginator(courses, 2)
+    page = request.GET.get('page')
+    courses = paginator.get_page(page)
+    context = {'courses': courses, 'stu': stu, 'selected_courses': selected_courses, 'form': form, }
+    return render(request, 'student/courseOnline.html', context=context)
 
 
 # 成绩查询
@@ -183,6 +163,7 @@ def set_no_degree(request, s_id, c_id):
     c.save()
     return redirect(reverse('courseselect:selected'))
 
+
 # 设为非学位课
 def set_degree(request, s_id, c_id):
     c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
@@ -196,6 +177,46 @@ def drop_course(request, s_id, c_id):
     c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
     c.delete()
     return redirect(reverse('courseselect:selected'))
+
+
+# 判断是否选课冲突
+def allow(course, courses):
+    sw = course.start_week
+    ew = course.end_week
+    tm = course.arr_course
+    for c in courses:
+        if c.start_week < ew or c.end_week > sw:
+            if tm == c.arr_course:
+                return False, c
+    return True, None
+
+
+# 判断人数是否满了
+def is_full(c_id):
+    course = get_object_or_404(Course, c_id=c_id)
+    if course.selected_now + 1 <= course.selected_limit:
+        return False
+    return True
+
+
+# 选课按钮
+def get_course(request, s_id, c_id):
+    full = is_full(c_id)
+    courses = []
+    aim_course = get_object_or_404(Course, c_id=c_id)
+    scs = StudentCourse.objects.filter(student=Student.objects.get(s_id=s_id))
+    for sc in scs:
+        courses.append(sc.course)
+    tag, conflict = allow(aim_course, courses)
+    if tag and not full:
+        c = StudentCourse(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+        c.save()
+        aim_course.selected_now += 1
+        return redirect(reverse('courseselect:select'))
+    elif not tag and not full:
+        return HttpResponse("与" + conflict.name + '冲突')
+    else:
+        return HttpResponse("选课人数已满")
 
 # 教师模块------------------------------------------------以下已经改动-----------------------------
 
