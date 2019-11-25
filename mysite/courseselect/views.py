@@ -20,6 +20,8 @@ from django.views.decorators.csrf import csrf_exempt
 #     return redirect('user_login:login')
 
 def login(request):
+    if request.session.get('is_login', None):
+        return redirect('courseselect:stu_index')
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -142,7 +144,13 @@ def course_select(request):
 
 # 成绩查询
 def grade(request):
-    pass
+    stu = get_object_or_404(Student, s_id=request.session['id'])
+    scs = StudentCourse.objects.filter(student=Student.objects.get(s_id=request.session['id']))
+    context = {
+        'stu': stu,
+        'scs': scs,
+    }
+    return render(request, 'student/courseAch.html', context=context)
 
 
 # 查看课表并下载

@@ -112,7 +112,7 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    s_id = models.ForeignKey(User, verbose_name='学号', on_delete=models.CASCADE)
+    s_id = models.OneToOneField(User, verbose_name='学号', on_delete=models.CASCADE)
     name = models.CharField(max_length=20, verbose_name='姓名')
     courses = models.ManyToManyField(Course, verbose_name='已选课程')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='所属院系')

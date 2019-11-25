@@ -13,7 +13,7 @@ admin.site.site_title = '后台管理'
 
 @admin.register(User)
 class UserAdmin(ImportExportModelAdmin):
-    fields = ('u_id', 'kind')
+    fields = ('u_id', 'kind', 'password')
     list_display = ('u_id', 'kind')
     search_fields = ['u_id']
     resource_class = UserResource
