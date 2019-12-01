@@ -134,14 +134,23 @@ def course_select(request):
     form = SearchForm()
     stu = get_object_or_404(Student, s_id=pk)
     selected_courses = StudentCourse.objects.filter(student=Student.objects.get(s_id=pk))
+    loved = []
     for sc in selected_courses:
         if sc.course in courses:
             courses = courses.exclude(c_id=sc.course.c_id)
-    courses = sorted(courses, key=lambda course: course.hot_value)
-    paginator = Paginator(courses, 2)
+    courses = sorted(courses, key=lambda course: course.hot_value, reverse=True)
+
+    paginator1 = Paginator(courses, 2)
     page = request.GET.get('page')
-    courses = paginator.get_page(page)
-    context = {'courses': courses, 'stu': stu, 'selected_courses': selected_courses, 'form': form, }
+    courses = paginator1.get_page(page)
+    for c in courses:
+        try:
+            Pre.objects.get(student=Student.objects.get(s_id=pk), course=c)
+            loved.append('1')
+        except:
+            loved.append('0')
+    loved = zip(courses, loved)
+    context = {'courses': courses, 'stu': stu, 'selected_courses': selected_courses, 'form': form,'loved': loved }
     return render(request, 'student/courseOnline.html', context=context)
 
 
@@ -194,11 +203,18 @@ def drop_course(request, s_id, c_id):
 def allow(course, courses):
     sw = course.start_week
     ew = course.end_week
-    tm = course.arr_course
+    wd = course.weekdays
+    st = course.start_time
+    et = course.end_time
     for c in courses:
         if c.start_week < ew or c.end_week > sw:
-            if tm == c.arr_course:
-                return False, c
+            if wd == c.weekdays:
+                if c.start_time <  st and c.end_time < st:
+                    return True, None
+                elif c.start_time > et:
+                        return True, None
+                else:
+                    return False, c
     return True, None
 
 
@@ -212,7 +228,7 @@ def is_full(c_id):
 
 # 选课按钮
 def get_course(request, s_id, c_id):
-    now = timezone.datetime.now()
+    now = timezone.now()
     date = Date.objects.all()[0]
     if now < date.start_time:
         return HttpResponse("选课尚未开始")
@@ -236,35 +252,84 @@ def get_course(request, s_id, c_id):
         return HttpResponse("选课人数已满")
 
 
+# 正式选课页面取消收藏
+def drop_pre_xk(request, s_id, c_id):
+    co = Course.objects.get(c_id=c_id)
+    cs = Pre.objects.filter(student=Student.objects.get(s_id=s_id), course=co)
+    for c in cs:
+        c.delete()
+    co.hot_value -= 1
+    co.save()
+    return redirect(reverse('courseselect:select'))
+
+
 # 预选课界面
 def pre_selected(request):
     if request.session.get('is_login') is None:
         redirect('courseselect:index')
     s_id = request.session['id']
+    stu = get_object_or_404(Student, s_id=s_id)
     scs = Pre.objects.filter(student=Student.objects.get(s_id=s_id))
     courses = []
     for sc in scs:
         courses.append(sc.course)
     context = {
         'courses': courses,
+        'stu': stu,
     }
-    return render(request, 'student/pre.html', context=context)
+    return render(request, 'student/courseLoved.html', context=context)
 
 
 # 预选课按钮
 def get_pre(request, s_id, c_id):
     co = Course.objects.get(c_id=c_id)
-    c = Pre(student=Student.objects.get(s_id=s_id), course=co)
-    c.save()
-    co.hot_value += 1
+    try:
+        Pre.objects.get(student=Student.objects.get(s_id=s_id), course=co)
+    except:
+        c = Pre(student=Student.objects.get(s_id=s_id), course=co)
+        c.save()
+        co.hot_value += 1
+        co.save()
+    return redirect(reverse('courseselect:select'))
 
 
 # 取消预选课
 def drop_pre(request, s_id, c_id):
     co = Course.objects.get(c_id=c_id)
-    c = Pre(student=Student.objects.get(s_id=s_id), course=co)
-    c.delete()
+    cs = Pre.objects.filter(student=Student.objects.get(s_id=s_id), course=co)
+    for c in cs:
+        c.delete()
     co.hot_value -= 1
+    co.save()
+    return redirect(reverse('courseselect:preselected'))
+
+
+# 预选课界面选择按钮
+def get_course_pre(request, s_id, c_id):
+    now = timezone.now()
+    date = Date.objects.all()[0]
+    if now < date.start_time:
+        return HttpResponse("选课尚未开始")
+    if now > date.end_time:
+        return HttpResponse("选课已经结束")
+    full = is_full(c_id)
+    courses = []
+    aim_course = get_object_or_404(Course, c_id=c_id)
+    scs = StudentCourse.objects.filter(student=Student.objects.get(s_id=s_id))
+    for sc in scs:
+        courses.append(sc.course)
+    tag, conflict = allow(aim_course, courses)
+    if tag and not full:
+        c = StudentCourse(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+        c.save()
+        c1 = Pre.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+        c1.delete()
+        aim_course.selected_now += 1
+        return redirect(reverse('courseselect:preselected'))
+    elif not tag and not full:
+        return HttpResponse("与" + conflict.name + '冲突')
+    else:
+        return HttpResponse("选课人数已满")
 
 
 

@@ -2,197 +2,211 @@
 !DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>国科大网上选课系统</title>
-      <!-- 引入 Bootstrap -->
-      <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-      <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
-      <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
-      <!--[if lt IE 9]>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国科大网上选课系统</title>
+    <!-- 引入 Bootstrap -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
          <script src="{% static 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' %}"></script>
          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
       <![endif]-->
-      <link rel="stylesheet" href="{% static 'css/courseSystem.css' %}">
-      <link rel="stylesheet" href="{% static 'css/courseResult.css' %}">
-      <script src="{% static 'js/template-native.js' %}"></script>
-      <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/courseSystem.css' %}">
+    <link rel="stylesheet" href="{% static 'css/courseResult.css' %}">
+    <script src="{% static 'js/template-native.js' %}"></script>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
 </head>
 <body>
 
-  <div class="navigation">
+<div class="navigation">
     <ul>
-      <li><a href="{% url 'courseselect:stu_index' %}"><span class="navIcon" id="annunciate"></span><p>选课公告</p></a></li>
-      <li><a href="{% url 'courseselect:select' %}"><span class="navIcon" id="online"></span><p>网上选课</p></a></li>
-      <li><a class="active" href="{% url 'courseselect:selected' %}"><span class="navIcon" id="result"></span><p>已选课程</p></a></li>
-      {#      <li><a href="courseDelete.html"><span class="navIcon" id="delete"></span><p>退课</p></a></li>#}
-      <li><a href="{% url 'courseselect:schedule' %}"><span class="navIcon" id="schedule"></span><p>我的课表</p></a></li>
-      <li><a href="{% url 'courseselect:grade' %}"><span class="navIcon" id="ach"></span><p>查询成绩</p></a></li>
+        <li><a href="{% url 'courseselect:stu_index' %}"><span class="navIcon" id="annunciate"></span>
+            <p>选课公告</p></a></li>
+        <li><a href="{% url 'courseselect:select' %}"><span class="navIcon" id="online"></span>
+            <p>网上选课</p></a></li>
+        <li><a href="{% url 'courseselect:preselected' %}"><span class="navIcon" id="online"></span>
+            <p>课程收藏</p></a></li>
+        <li><a class="active" href="{% url 'courseselect:selected' %}"><span class="navIcon" id="result"></span>
+            <p>已选课程</p></a></li>
+        <li><a href="{% url 'courseselect:schedule' %}"><span class="navIcon" id="schedule"></span>
+            <p>我的课表</p></a></li>
+        <li><a href="{% url 'courseselect:grade' %}"><span class="navIcon" id="ach"></span>
+            <p>查询成绩</p></a></li>
     </ul>
-  </div>
-  <div class="contain">
-    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ stu.name }}！ <a href="{% url 'courseselect:logout' %}" class="safeExit">退出</a></span></header>
+</div>
+<div class="contain">
+    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ stu.name }}！ <a href="{% url 'courseselect:logout' %}" class="safeExit">退出</a></span>
+    </header>
     <div class="main">
-      <div class="white">
-      <div class="tab-content">
-        <div id="part1" class="tab-pane fade in active">
-          <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" 
-                     href="#collapseOne">
-                    <span class="glyphicon glyphicon-hand-right"></span> 学位课课程
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                <div id="openValidTable">
-                  
-                </div>
-{% if messages %}
-<script>
-    {% for msg in messages %}
-        alert('{{ msg.message }}');
-    {% endfor %}
-</script>
-{% endif %}
+        <div class="white">
+            <div class="tab-content">
+                <div id="part1" class="tab-pane fade in active">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseOne">
+                                        <span class="glyphicon glyphicon-hand-right"></span> 学位课课程
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div id="openValidTable">
 
-          <!-- script 代码添加 开始-->
-{#                <script id="openValidTemplate" type="text/html">#}
-{#                <% if (isAdmin) { %>#}
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>课程号</th>
-                          <th>课程名</th>
-                          <th>学分</th>
-                          <th>老师</th>
-                          <th>上课地点</th>
-                          <th>上课周数</th>
-                          <th>上课节数</th>
-                          <th>星期</th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for c, s in courses %}
-                            {% if s == 'is' %}
-                            <tr>
-                              <td>{{ c.c_id }}</td>
-                              <td>{{ c.name }}</td>
-                              <td>{{ c.credit }}</td>
-                              <td>
-                                  {% for t in c.teacher.all %}
-                                      {{ t.name }}
-                                  {% endfor %}
-                              </td>
-                              <td>{{ c.classroom }}</td>
-                              <td>{{ c.start_week }}～{{ c.end_week }}周</td>
-                              <td>第{{ c.get_num }}节</td>
-                              <td>{{ c.get_weekday }}</td>
-                              <td><a href="{% url 'courseselect:setnodegree' stu.s_id c.c_id %}">设置为非学位课</a> </td>
-                                <td><a href="{% url 'courseselect:dropcourse' stu.s_id c.c_id %}">退选</a> </td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                      <p><b>已选学分：</b>{{ total_credit }}</p>
-                      <p><b>已选学位课学分：</b>{{ degree_credit }}</p>
-                  </div>
-{#                  <% } %>#}
-{#                  </script>#}
-            <!-- script 代码添加 结束-->
-                    
-                <div id="openNoValidTable">
-                  
-                </div>
+                                    </div>
+                                    {% if messages %}
+                                        <script>
+                                            {% for msg in messages %}
+                                                alert('{{ msg.message }}');
+                                            {% endfor %}
+                                        </script>
+                                    {% endif %}
 
-                </div><!-- panel-body 结束 -->
-              </div>
-            </div><!-- panel 结束 -->
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" 
-                     href="#collapseTwo">
-                    <span class="glyphicon glyphicon-hand-right"></span> 非学位课
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
+                                    <!-- script 代码添加 开始-->
+                                    {#                <script id="openValidTemplate" type="text/html">#}
+                                    {#                <% if (isAdmin) { %>#}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>课程号</th>
+                                                <th>课程名</th>
+                                                <th>学分</th>
+                                                <th>老师</th>
+                                                <th>上课地点</th>
+                                                <th>上课周数</th>
+                                                <th>上课节数</th>
+                                                <th>星期</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for c, s in courses %}
+                                                {% if s == 'is' %}
+                                                    <tr>
+                                                        <td>{{ c.c_id }}</td>
+                                                        <td>{{ c.name }}</td>
+                                                        <td>{{ c.credit }}</td>
+                                                        <td>
+                                                            {% for t in c.teacher.all %}
+                                                                {{ t.name }}
+                                                            {% endfor %}
+                                                        </td>
+                                                        <td>{{ c.classroom }}</td>
+                                                        <td>{{ c.start_week }}～{{ c.end_week }}周</td>
+                                                        <td>第{{ c.start_time }}节 到 第{{ c.end_time }}节</td>
+                                                        <td>{{ c.weekdays }}</td>
+                                                        <td>
+                                                            <a href="{% url 'courseselect:setnodegree' stu.s_id c.c_id %}">设置为非学位课</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url 'courseselect:dropcourse' stu.s_id c.c_id %}">退选</a>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <p><b>已选学分：</b>{{ total_credit }}</p>
+                                        <p><b>已选学位课学分：</b>{{ degree_credit }}</p>
+                                    </div>
+                                    {#                  <% } %>#}
+                                    {#                  </script>#}
+                                    <!-- script 代码添加 结束-->
 
-                <div id="dirTable">
-                  
-                </div>
+                                    <div id="openNoValidTable">
 
-          <!-- script 代码添加 开始-->
-{#                <script id="labTemplate" type="text/html">#}
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>课程号</th>
-                          <th>课程名</th>
-                          <th>学分</th>
-                          <th>老师</th>
-                          <th>上课地点</th>
-                          <th>上课周数</th>
-                          <th>上课节数</th>
-                          <th>星期</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          {% for c, s in courses %}
-                              {% if s == 'not' %}
-                                <tr>
-                                  <td>{{ c.c_id }}</td>
-                                  <td>{{ c.name }}</td>
-                                  <td>{{ c.credit }}</td>
-                                  <td>
-                                      {% for t in c.teacher.all %}
-                                      {{ t.name }}
-                                      {% endfor %}
-                                  </td>
-                                  <td>{{ c.classroom }}</td>
-                                  <td>{{ c.start_week }}～{{ c.end_week }}周</td>
-                                  <td>第{{ c.get_num }}节</td>
-                                  <td>{{ c.get_weekday }}</td>
-                                <td><a href="{% url 'courseselect:setdegree' stu.s_id c.c_id %}">设置为学位课</a> </td>
-                                <td><a href="{% url 'courseselect:dropcourse' stu.s_id c.c_id %}">退选</a> </td>
-{#                                  <td><button class="btn btn-info" id="setNoDegree" onclick="window.open('{% url 'courseselect:setdegree' stu.s_id c.c_id %}')">设为学位课</button></td>#}
-{#                                  <td><button class="btn btn-info" id="quitCh">退选</button></td>#}
-                                </tr>
-                              {% endif %}
-                        {% endfor %}
-                        </tr>
-                      </tbody>
-                    </table>
-              <p><b>已选学分：</b>{{ total_credit }}</p>
-            <p><b>已选学位课学分：</b>{{ degree_credit }}</p>
-                  </div>
-                  {#</script>#}
-            <!-- script 代码添加 结束-->
+                                    </div>
+
+                                </div><!-- panel-body 结束 -->
+                            </div>
+                        </div><!-- panel 结束 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseTwo">
+                                        <span class="glyphicon glyphicon-hand-right"></span> 非学位课
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse">
+                                <div class="panel-body">
+
+                                    <div id="dirTable">
+
+                                    </div>
+
+                                    <!-- script 代码添加 开始-->
+                                    {#                <script id="labTemplate" type="text/html">#}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>课程号</th>
+                                                <th>课程名</th>
+                                                <th>学分</th>
+                                                <th>老师</th>
+                                                <th>上课地点</th>
+                                                <th>上课周数</th>
+                                                <th>上课节数</th>
+                                                <th>星期</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                {% for c, s in courses %}
+                                                    {% if s == 'not' %}
+                                                        <tr>
+                                                            <td>{{ c.c_id }}</td>
+                                                            <td>{{ c.name }}</td>
+                                                            <td>{{ c.credit }}</td>
+                                                            <td>
+                                                                {% for t in c.teacher.all %}
+                                                                    {{ t.name }}
+                                                                {% endfor %}
+                                                            </td>
+                                                            <td>{{ c.classroom }}</td>
+                                                            <td>{{ c.start_week }}～{{ c.end_week }}周</td>
+                                                        <td>第{{ c.start_time }}节 到 第{{ c.end_time }}节</td>
+                                                        <td>{{ c.weekdays }}</td>
+                                                            <td>
+                                                                <a href="{% url 'courseselect:setdegree' stu.s_id c.c_id %}">设置为学位课</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{% url 'courseselect:dropcourse' stu.s_id c.c_id %}">退选</a>
+                                                            </td>
+                                                            {#                                  <td><button class="btn btn-info" id="setNoDegree" onclick="window.open('{% url 'courseselect:setdegree' stu.s_id c.c_id %}')">设为学位课</button></td>#}
+                                                            {#                                  <td><button class="btn btn-info" id="quitCh">退选</button></td>#}
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <p><b>已选学分：</b>{{ total_credit }}</p>
+                                        <p><b>已选学位课学分：</b>{{ degree_credit }}</p>
+                                    </div>
+                                    {#</script>#}
+                                    <!-- script 代码添加 结束-->
 
 
-
-            </div><!-- panel 结束 -->
-          </div><!-- panel-group 结束-->
-        </div><!-- part1 结束 -->
-      </div><!-- white 结束 -->
-    </div><!-- main 结束 -->
-  </div><!-- contain 结束 -->
-   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-   <script src="{% static 'bootstrap/js/jquery-3.1.1.min.js' %}"></script>
-   <!-- 包括所有已编译的插件 -->
-   <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-   <script src="{% static 'js/cookies.js' %}"></script>
-   <script src="{% static 'js/courseResult.js' %}"></script>
+                                </div><!-- panel 结束 -->
+                            </div><!-- panel-group 结束-->
+                        </div><!-- part1 结束 -->
+                    </div><!-- white 结束 -->
+                </div><!-- main 结束 -->
+            </div><!-- contain 结束 -->
+            <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+            <script src="{% static 'bootstrap/js/jquery-3.1.1.min.js' %}"></script>
+            <!-- 包括所有已编译的插件 -->
+            <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/cookies.js' %}"></script>
+            <script src="{% static 'js/courseResult.js' %}"></script>
 </body>
 </html>

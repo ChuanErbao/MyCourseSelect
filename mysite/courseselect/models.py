@@ -83,8 +83,8 @@ class Course(models.Model):
     start_week = models.IntegerField(verbose_name='开始周次', default=1)
     end_week = models.IntegerField(verbose_name='结束周次', default=20)
     weekdays = models.IntegerField(verbose_name='周几', default=0)
-    start_time = models.IntegerField(verbose_name='开始节')
-    start_week = models.IntegerField(verbose_name='结束节')
+    start_time = models.IntegerField(verbose_name='开始节', default=0)
+    end_time = models.IntegerField(verbose_name='结束节', default=0)
     hot_value = models.IntegerField(verbose_name='热度值', default=0)
     # 上课教室
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='上课教室')
@@ -103,8 +103,8 @@ class Course(models.Model):
     def get_weekday(self):
         return self.arr_course // 11 + 1;
 
-    def get_num(self):
-        return self.arr_course % 11;
+    # def get_num(self):
+    #     return self.arr_course % 11;
 
     def reset_hot_value(self):
         self.hot_value = 0
@@ -150,8 +150,13 @@ class StudentCourse(models.Model):
 
 # 预选课及热度排名
 class Pre(models.Model):
+    choice = [
+        ('is', 'is'),
+        ('not', 'not'),
+    ]
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    is_loved = models.CharField(verbose_name='是否收藏', choices=choice,max_length=10, default='not')
 
     class Meta:
         verbose_name = '预选课'
@@ -167,8 +172,8 @@ class TeacherCourse(models.Model):
 
 
 class Date(models.Model):
-    start_time = models.DateTimeField(verbose_name='选课开始时间')
-    end_time = models.DateTimeField(verbose_name='选课结束时间')
+    start_time = models.DateTimeField(verbose_name='选课开始时间', default=timezone.now)
+    end_time = models.DateTimeField(verbose_name='选课结束时间', default=timezone.now)
 
     class Meta:
         verbose_name_plural = '选课开始结束时间'

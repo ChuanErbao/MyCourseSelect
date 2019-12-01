@@ -24,9 +24,9 @@
     <ul>
         <li><a href="{% url 'courseselect:stu_index' %}"><span class="navIcon" id="annunciate"></span>
             <p>选课公告</p></a></li>
-        <li><a class="active" href="{% url 'courseselect:select' %}"><span class="navIcon" id="online"></span>
+        <li><a href="{% url 'courseselect:select' %}"><span class="navIcon" id="online"></span>
             <p>网上选课</p></a></li>
-        <li><a href="{% url 'courseselect:preselected' %}"><span class="navIcon" id="online"></span>
+        <li><a class="active" href="{% url 'courseselect:preselected' %}"><span class="navIcon" id="online"></span>
             <p>课程收藏</p></a></li>
         <li><a href="{% url 'courseselect:selected' %}"><span class="navIcon" id="result"></span>
             <p>已选课程</p></a></li>
@@ -80,15 +80,14 @@
                                                 <th>上课周数</th>
                                                 <th>星期</th>
                                                 <th>上课节数</th>
-                                                <th>已选/可选</th>
-                                                <th>收藏课程</th>
+                                                <th>取消收藏</th>
                                                 <th>选择课程</th>
-                                                <th>热度</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for c, l in loved %}
+                                            {% for c in courses %}
                                                 <tr>
+                                                    <td></td>
                                                     <td>{{ c.c_id }}</td>
                                                     <td>{{ c.name }}</td>
                                                     <td>{{ c.credit }}</td>
@@ -101,15 +100,9 @@
                                                     <td>{{ c.start_week }}～{{ c.end_week }}周</td>
                                                     <td>{{ c.weekdays }}</td>
                                                     <td>第{{ c.start_time }}节～第{{ c.end_time }}节</td>
-                                                    <td>{{ c.selected_now }}/{{ c.selected_limit }}</td>
-                                                    {% if l == '0' %}
-                                                        <td><a href="{% url 'courseselect:getpre' stu.s_id c.c_id %}"><b>收藏</b></a></td>
-                                                    {% else %}
-                                                        <td><a href="{% url 'courseselect:dropprexk' stu.s_id c.c_id %}"><b>已收藏</b></a></td>
-                                                    {% endif %}
-                                                    <td><a href="{% url 'courseselect:getcourse' stu.s_id c.c_id %}"><b>选择</b></a>
+                                                    <td><p><a href="{% url 'courseselect:droppre' stu.s_id c.c_id %}"><b>取消收藏</b></a></p></td>
+                                                    <td><a href="{% url 'courseselect:getcoursepre' stu.s_id c.c_id %}"><b>添加</b></a>
                                                     </td>
-                                                    <td>{{ c.hot_value }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -152,6 +145,6 @@
     <!-- 包括所有已编译的插件 -->
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/cookies.js' %}"></script>
-    <script src="{% static 'js/courseResult.js' %}"></script>
+    <script src="{% static 'js/courseLoved.js' %}"></script>
 </body>
 </html>

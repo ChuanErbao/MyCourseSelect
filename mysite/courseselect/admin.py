@@ -82,7 +82,7 @@ class GradeAdmin(admin.ModelAdmin):
 @admin.register(Date)
 class StartDateAdmin(admin.ModelAdmin):
     fields = ('start_time', 'end_time' )
-    list_display = ['check_time','end_time' ]
+    list_display = ['start_time','end_time' ]
 
 
 
