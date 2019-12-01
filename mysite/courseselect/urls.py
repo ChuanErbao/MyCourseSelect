@@ -15,15 +15,14 @@ urlpatterns = [
     url(r'^student/setdegree/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.set_degree, name='setdegree'),
     url(r'^student/drop/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.drop_course, name='dropcourse'),
     url(r'^student/get/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.get_course, name='getcourse'),
+    url(r'student/preget/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.get_pre, name='getpre'),
+    url(r'student/predrop/(?P<s_id>[0-9]+)/(?P<c_id>\d+)/', views.drop_pre, name='droppre'),
 
     url('teacher/downloadFile', views.tea_download_file, name='tea_download_file'),
     url('teacher/courseAnnunciate', views.tea_courseAnnunciate, name='tea_courseAnnunciate'),
-    url('teacher/courseDelete', views.tea_courseDelete, name='tea_courseDelete'),
     url('teacher/courseResult', views.tea_courseResult, name='tea_courseResult'),
     url('teacher/mySchedule', views.tea_mySchedule, name='tea_mySchedule'),
-    # url('teacher/peopleList', views.tea_peopleList, name='tea_peopleList'),
     url('teacher/courseScore', views.tea_courseScore, name='tea_courseScore'),
-    # url('teacher/setScore', views.tea_setScore, name='tea_setScore'),
     url('teacher/getStuMsg', views.tea_getStuMsg, name='tea_getStuMsg'),
     url('teacher/uploadScore', views.tea_uploadScore, name='tea_uploadScore'),
 ]

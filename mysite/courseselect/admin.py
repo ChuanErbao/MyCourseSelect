@@ -21,8 +21,8 @@ class UserAdmin(ImportExportModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(ImportExportModelAdmin):
-    fields = ('name', 'teacher', 'credit', 'department', 'start_week', 'end_week', 'arr_course', 'selected_limit', 'pub_date', 'classroom')
-    list_display = ['c_id', 'name', '授课教师', 'department', '上课时间', 'credit', 'selected_now', 'selected_limit' ]
+    fields = ('name', 'teacher', 'credit', 'department', 'start_week', 'end_week', 'weekdays', 'start_time', 'end_time', 'selected_limit', 'pub_date', 'classroom')
+    list_display = ['c_id', 'name', '授课教师', 'department', '上课时间', 'credit', 'selected_now', 'selected_limit', 'hot_value', ]
     # list_display_links = ['name']
     list_filter = ['department', 'credit']
     search_fields = ['name', 'teacher']
@@ -37,7 +37,7 @@ class CourseAdmin(ImportExportModelAdmin):
         return [t.name for t in obj.teacher.all()]
 
     def 上课时间(self, obj):
-        return '第' + str(obj.start_week) + '周--第' + str(obj.end_week) + '周周' + str(obj.arr_course // 11 + 1) + '第' + str(obj.arr_course % 11 ) + '节'
+        return '第' + str(obj.start_week) + '周--第' + str(obj.end_week) + '周周' + str(obj.weekdays) + '第' + str(obj.start_time ) + '节到第' + str(obj.end_time) + '节'
 
 
 @admin.register(Teacher)
@@ -79,10 +79,10 @@ class GradeAdmin(admin.ModelAdmin):
     list_display = ['student', 'course', 'grade', 'attribute', ]
 
 
-@admin.register(StartDate)
+@admin.register(Date)
 class StartDateAdmin(admin.ModelAdmin):
-    fields = ('check_time', )
-    list_display = ['check_time', ]
+    fields = ('start_time', 'end_time' )
+    list_display = ['check_time','end_time' ]
 
 
 

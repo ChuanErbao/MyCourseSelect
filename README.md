@@ -28,3 +28,4 @@ pip install django-import-export
 ```
 使用django-simpleui美化管理员界面
 使用django-import-export进行文件上传下载
+使用django-simple-captcha实现验证码

@@ -82,7 +82,10 @@ class Course(models.Model):
     # 上课时间，包括周次和节次，节次使用1-55表示
     start_week = models.IntegerField(verbose_name='开始周次', default=1)
     end_week = models.IntegerField(verbose_name='结束周次', default=20)
-    arr_course = models.IntegerField(verbose_name='第几节', default=0)
+    weekdays = models.IntegerField(verbose_name='周几', default=0)
+    start_time = models.IntegerField(verbose_name='开始节')
+    start_week = models.IntegerField(verbose_name='结束节')
+    hot_value = models.IntegerField(verbose_name='热度值', default=0)
     # 上课教室
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='上课教室')
     teacher = models.ManyToManyField(
@@ -102,6 +105,9 @@ class Course(models.Model):
 
     def get_num(self):
         return self.arr_course % 11;
+
+    def reset_hot_value(self):
+        self.hot_value = 0
 
     class Meta:
         ordering = ['pub_date', 'department']
@@ -142,6 +148,16 @@ class StudentCourse(models.Model):
         verbose_name_plural = '选课及成绩'
 
 
+# 预选课及热度排名
+class Pre(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = '预选课'
+        verbose_name_plural = '预选课'
+
+
 class TeacherCourse(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='授课教师')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='课程')
@@ -150,12 +166,13 @@ class TeacherCourse(models.Model):
         return self.teacher + '所教授的' + self.course
 
 
-class StartDate(models.Model):
-    check_time = models.DateTimeField(verbose_name='选课开始时间')
+class Date(models.Model):
+    start_time = models.DateTimeField(verbose_name='选课开始时间')
+    end_time = models.DateTimeField(verbose_name='选课结束时间')
 
     class Meta:
-        verbose_name_plural = '选课开始时间'
-        verbose_name = '选课开始时间'
+        verbose_name_plural = '选课开始结束时间'
+        verbose_name = '选课开始结束时间'
 
 
 # # 应该怎么实现课程冲突判断
