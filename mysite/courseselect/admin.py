@@ -85,4 +85,10 @@ class StartDateAdmin(admin.ModelAdmin):
     list_display = ['start_time','end_time' ]
 
 
+@admin.register(TeacherCourse)
+class TeacherClassAdmin(admin.ModelAdmin):
+    fields = ('teacher', 'course', )
+    list_display = ['teacher', 'course']
+
+
 

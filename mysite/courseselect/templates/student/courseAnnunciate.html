@@ -49,8 +49,14 @@
                 <div id="part1" class="tab-pane fade in active">
                     <div class="timeDiv">
                         <p>
-                            <small>开始时间：</small>
-                            <span class="orangeTime">{{ time.check_time|date:"Y-m-d H:i:s" }}</span></p>
+                            {% if is_start == 0 %}
+                            <b>开始时间：</b>
+                            <span class="orangeTime">{{ time.start_time|date:"Y-m-d H:i:s" }}</span>
+                            {% else %}
+                            <b>结束时间：</b>
+                            <span class="orangeTime">{{ time.end_time|date:"Y-m-d H:i:s" }}</span>
+                            {% endif %}
+                        </p>
                     </div>
                     <div class="panel-group" id="accordion1">
                         <div class="panel panel-default">
@@ -64,8 +70,6 @@
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="panel-body">
-                                    <p style="text-align:center;">
-                                        &nbsp2019&nbsp~&nbsp2020&nbsp学年下学期选课于&nbsp2019&nbsp年&nbsp12月&nbsp31日开放</p>
                                     <div class="annouceImg" id="annouce1">
                                         <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
 

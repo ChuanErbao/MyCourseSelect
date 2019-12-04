@@ -48,7 +48,6 @@
                     <form action="" , method="post">
                         {% csrf_token %}
                         {{ form }}
-                        <input type="submit" value="搜索" class="btn btn-success">
                     </form>
                 </div>
                 <div class="searchDiv"><label class="container"></label></div>
@@ -107,23 +106,6 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div class="pagination">
-                        <span class="step-links">
-                            {% if courses.has_previous %}
-                                <a href="?page=1">&laquo; 第一页</a>
-                                <a href="?page={{ courses.previous_page_number }}">上一页</a>
-                            {% endif %}
-
-                            <span class="current">
-                                第 {{ courses.number }} / {{ courses.paginator.num_pages }}页
-                            </span>
-
-                            {% if courses.has_next %}
-                                <a href="?page={{ courses.next_page_number }}">下一页</a>
-                                <a href="?page={{ courses.paginator.num_pages }}">末页 &raquo;</a>
-                            {% endif %}
-                        </span>
                                     </div>
                                     {#                  <div id="submitDiv"><button class="btn btn-info" id="submit">确认选择</button></div>#}
                                     <!-- 分页 -->

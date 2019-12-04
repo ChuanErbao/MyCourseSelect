@@ -23,7 +23,10 @@ from captcha.helpers import captcha_image_url
 
 def login(request):
     if request.session.get('is_login', None):
-        return redirect('courseselect:stu_index')
+        if request.session['kind'] == 'student':
+            return redirect('courseselect:stu_index')
+        else:
+            return redirect('courseselect:tea_courseAnnunciate')
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -31,6 +34,7 @@ def login(request):
             pwd = form.cleaned_data['password']
             kind = form.cleaned_data['kind']
             request.session['id'] = u_id
+            request.session['kind'] = kind
             try:
                 user = User.objects.get(pk=u_id)
             except:
@@ -74,15 +78,21 @@ def stu_index(request):
     if request.session['is_login'] is not True:
         return redirect('courseselect:index')
     else:
+        now = timezone.now()
         pk = request.session['id']
         stu = get_object_or_404(Student, s_id=pk)
         name = stu.name
         s_id = stu.s_id
         time = Date.objects.all()[0]
+        if now < time.start_time:
+            is_start = 0
+        else:
+            is_start = 1
         context = {
             'name': name,
             'id': s_id,
-            'time': time
+            'time': time,
+            'is_start': is_start,
         }
         return render(request, 'student/courseAnnunciate.html', context=context)
 
@@ -201,7 +211,10 @@ def set_degree(request, s_id, c_id):
 # 退选
 def drop_course(request, s_id, c_id):
     c = StudentCourse.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
+    course = Course.objects.get(c_id=c_id)
     c.delete()
+    course.selected_now -= 1
+    course.save()
     return redirect(reverse('courseselect:selected'))
 
 
@@ -251,6 +264,7 @@ def get_course(request, s_id, c_id):
         c = StudentCourse(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
         c.save()
         aim_course.selected_now += 1
+        aim_course.save()
         return redirect(reverse('courseselect:select'))
     elif not tag and not full:
         return HttpResponse("与" + conflict.name + '冲突')
@@ -348,9 +362,18 @@ def tea_courseAnnunciate(request):
     tea_id = request.session['id']
     context = {}
     list = []
+    now = timezone.now()
     context['list'] = list
     teacher = Teacher.objects.get(t_id=tea_id)
     context['name'] = teacher.name
+    time = Date.objects.all()[0]
+    if now < time.start_time:
+        is_start = 0
+    else:
+        is_start = 1
+    context['is_start'] = is_start
+    context['time'] = time
+
 
     return render(request, 'teacher/courseAnnunciate.html', context)
 
@@ -370,7 +393,7 @@ def tea_courseResult(request):
         list.append({"course_no": course.c_id, "subject_name": course.name, "department": course.department
                         , "credit": course.credit, "place": course.classroom, "start_week": course.start_week,
                      "end_week": course.end_week
-                        , "course_section": course.arr_course, "course_weekday": "3",
+                        , "course_section": str(course.start_time) + '-' + str(course.end_time), "course_weekday": course.weekdays,
                      "check_people": course.selected_now, "people_max": course.selected_limit})
 
     context['list'] = list

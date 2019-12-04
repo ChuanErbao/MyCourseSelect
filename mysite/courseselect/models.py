@@ -168,7 +168,7 @@ class TeacherCourse(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='课程')
 
     def __str__(self):
-        return self.teacher + '所教授的' + self.course
+        return self.teacher.name + '所教授的' + self.course.name
 
 
 class Date(models.Model):
