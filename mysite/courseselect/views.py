@@ -393,29 +393,18 @@ def tea_mySchedule(request):
     if not request.session.get('is_login', None):
         return redirect('courseselect:index')
     tea_id = request.session['id']
-    courses = Course.objects.filter(teacher=Teacher.objects.get(t_id=tea_id))
-
-    context = {}
-
     teacher = Teacher.objects.get(t_id=tea_id)
-    context['name'] = teacher.name
-
+ 
+    scs = TeacherCourse.objects.filter(teacher=teacher)
     courses = []
-    week_course = ["数学", "", "", "", "", "", ""]
-    courses.append(week_course)
-    week_course = ["", "", "", "", "", "英语", ""]
-    courses.append(week_course)
-    week_course = ["", "", "", "", "", "", ""]
-    courses.append(week_course)
-    week_course = ["", "", "", "", "", "", ""]
-    courses.append(week_course)
-    week_course = ["数学", "", "", "", "", "", ""]
-    courses.append(week_course)
-    week_course = ["", "", "", "", "", "英语", ""]
-    courses.append(week_course)
-    week_course = ["数学", "", "", "", "", "", ""]
-    courses.append(week_course)
-    context["courses"] = courses
+    for sc in scs:
+        courses.append(sc.course)
+    context = {
+        'name': teacher.name,
+        'courses': courses,
+    }
+    courses = sorted(courses, key=lambda course: course.weekdays)
+
     return render(request, 'teacher/mySchedule.html', context)
 
 

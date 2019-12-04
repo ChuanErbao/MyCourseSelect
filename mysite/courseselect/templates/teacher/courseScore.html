@@ -43,9 +43,7 @@
                     </h4>
                   </div>
                   <div id="{{course.course_no}}" class="panel-collapse collapse ">
-                    <div class="panel-body">
-                    {% comment %} <div id="openValidTable">
-                    </div> {% endcomment %}
+                    <div class="panel-body"> 
                       <form action="">
                         <div class="table-responsive">
                           <table class="table table-striped table-bordered table-hover">
@@ -59,10 +57,7 @@
                               </tr>
                             </thead>
 
-                            <tbody>
-                              {% comment %} <td>
-                                <input hidden type="text" id="url" value="{% url 'courseselect:tea_setScore' %}">
-                              </td> {% endcomment %}
+                            <tbody> 
                               {% for stu in course.students %} 
                                 <tr>
                                   <td id="stu_name" name="stu_name">{{stu.stu_name}}</td>
@@ -70,9 +65,7 @@
                                     <input hidden value="{{stu.stu_no}}" id="stu_no" name="stu_no">{{stu.stu_no}}</input>
                                   </td>
                                   <td>{{stu.stu_academy}}</td> 
-                                  <td>
-                                    <input type="text" style="width:50px" id="score" name="score" oninput="value=value.replace(/[^\d]/g,'')">
-                                  </td>
+                                  <td>{{stu.grade}}</td> 
                                 </tr>
                               {% endfor %}
                             </tbody>

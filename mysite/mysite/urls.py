@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
-from captcha import views
+# from captcha import views
 
 urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'', include('courseselect.urls')),
     url(r'userlogin/', include('userlogin.urls')),
     url(r'^captcha/', include('captcha.urls')),
-    url('refresh_captcha/', views.captcha_refresh),    # 刷新验证码，ajax
+    # url('refresh_captcha/', views.captcha_refresh),    # 刷新验证码，ajax
 ]

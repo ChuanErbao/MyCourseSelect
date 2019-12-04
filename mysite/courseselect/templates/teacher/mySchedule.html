@@ -24,96 +24,301 @@
     </ul>
   </div>
   <div class="contain">
-    <header><h3>教师课程管理系统</h3><span><label></label>｜<a href="course_select" class="safeExit">安全退出</a></span></header>
+    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ name }}！ <a href="{% url 'courseselect:logout' %}"
+                                                      class="safeExit">退出</a></span></header>
     <div class="main">
-      <div class="white">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th>星期一</th>
-                <th>星期二</th>
-                <th>星期三</th>
-                <th>星期四</th>
-                <th>星期五</th>
-                <th>星期六</th>
-                <th>星期日</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr name="point1">
-                <th>1～2节</th>
-                <td>{{courses.0.0}}</td>
-                <td>{{courses.1.0}}</td>
-                <td>{{courses.2.0}}</td>
-                <td>{{courses.3.0}}</td>
-                <td>{{courses.4.0}}</td>
-                <td>{{courses.5.0}}</td>
-                <td>{{courses.6.0}}</td>
-              </tr>
-              <tr name="point2">
-                <th>3~4节</th>
-                <td>{{courses.0.1}}</td>
-                <td>{{courses.1.1}}</td>
-                <td>{{courses.2.1}}</td>
-                <td>{{courses.3.1}}</td>
-                <td>{{courses.4.1}}</td>
-                <td>{{courses.5.1}}</td>
-                <td>{{courses.6.1}}</td>
-              </tr>
-              <tr>
-                <td colspan="8">午休</td>
-              </tr>
-              <tr name="point3">
-                <th>5~6节</th>
-                <td>{{courses.0.2}}</td>
-                <td>{{courses.1.2}}</td>
-                <td>{{courses.2.2}}</td>
-                <td>{{courses.3.2}}</td>
-                <td>{{courses.4.2}}</td>
-                <td>{{courses.5.2}}</td>
-                <td>{{courses.6.2}}</td>
-              </tr>
-              <tr name="point4">
-                <th>7~8节</th>
-                <td>{{courses.0.3}}</td>
-                <td>{{courses.1.3}}</td>
-                <td>{{courses.2.3}}</td>
-                <td>{{courses.3.3}}</td>
-                <td>{{courses.4.3}}</td>
-                <td>{{courses.5.3}}</td>
-                <td>{{courses.6.3}}</td>
-              </tr>
-              <tr>
-                <td colspan="8">晚饭</td>
-              </tr>
-              <tr name="point5">
-                <th>9~10节</th>
-                <td>{{courses.0.4}}</td>
-                <td>{{courses.1.4}}</td>
-                <td>{{courses.2.4}}</td>
-                <td>{{courses.3.4}}</td>
-                <td>{{courses.4.4}}</td>
-                <td>{{courses.5.4}}</td>
-                <td>{{courses.6.4}}</td>
-              </tr>
-              <tr name="point6">
-                <th>11~12节</th>
-                <td>{{courses.0.5}}</td>
-                <td>{{courses.1.5}}</td>
-                <td>{{courses.2.5}}</td>
-                <td>{{courses.3.5}}</td>
-                <td>{{courses.4.5}}</td>
-                <td>{{courses.5.5}}</td>
-                <td>{{courses.6.5}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div><!-- white 结束 -->
+    <div id="div_print">
+        <div class="white">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>星期一</th>
+                        <th>星期二</th>
+                        <th>星期三</th>
+                        <th>星期四</th>
+                        <th>星期五</th>
+                        <th>星期六</th>
+                        <th>星期日</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr name="point1">
+                        <th>1～2节</th>
+                    <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 1 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 2 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 3 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 4 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 5 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 6 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 7 and c.start_time == 1 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    <tr name="point2">
+                        <th>3~4节</th>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 1 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 2 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 3 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 4 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 5 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 6 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 7 and c.start_time == 3 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">午休</td>
+                    </tr>
+                    <tr name="point3">
+                        <th>5~6节</th>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 1 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 2 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 3 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 4 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 5 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 6 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 7 and c.start_time == 5 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    <tr name="point4">
+                        <th>7~8节</th>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 1 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 2 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 3 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 4 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 5 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 6 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 7 and c.start_time == 7 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">晚饭</td>
+                    </tr>
+                    <tr name="point5">
+                        <th>9~11节</th>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 1 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 2 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 3 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 4 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 5 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 6 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                        <td>
+                        {% for c in courses %}
+                        {% if c.weekdays == 7 and c.start_time == 9 %}
+                        {{ c.name }}<br>第{{ c.start_time }}节-第{{ c.end_time }}节<br>第{{ c.start_week }}周-第{{ c.end_week }}周<br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div><!-- white 结束 -->
+    </div>
+    <input name="b_print" type="button" class="ipt"   onClick="printdiv('div_print');" value=" 打印课表 ">
     </div><!-- main 结束 -->
-  </div><!-- contain 结束 -->
+</div><!-- contain 结束 -->
    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
    <script src="{% static '/bootstrap/js/jquery-3.1.1.min.js'%}"></script>
    <!-- 包括所有已编译的插件 -->
