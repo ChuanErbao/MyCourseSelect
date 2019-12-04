@@ -30,7 +30,7 @@
             <p>课程收藏</p></a></li>
         <li><a href="{% url 'courseselect:selected' %}"><span class="navIcon" id="result"></span>
             <p>已选课程</p></a></li>
-        <li><a href="{% url 'courseselect:schedule"><span class="navIcon" id="schedule"></span>
+        <li><a href="{% url 'courseselect:schedule' %}"><span class="navIcon" id="schedule"></span>
             <p>我的课表</p></a></li>
         <li><a class="active"  href="{% url 'courseselect:grade' %}"><span class="navIcon" id="ach"></span>
             <p>查询成绩</p></a></li>
@@ -62,7 +62,6 @@
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                             <tr>
-
                                                 <th>课程号</th>
                                                 <th>课程名</th>
                                                 <th>学分</th>
@@ -72,10 +71,12 @@
                                             <tbody>
                                             {% for sc in scs %}
                                                 {% if sc.attribute == 'not' %}
+                                                    <tr>
                                                     <th>{{ sc.course.c_id }}</th>
                                                     <th>{{ sc.course.name }}</th>
                                                     <th>{{ sc.course.credit }}</th>
                                                     <th>{{ sc.grade }}分</th>
+                                                    </tr>
                                                 {% endif %}
                                             {% endfor %}
                                             </tbody>
@@ -112,10 +113,12 @@
                                             <tbody>
                                             {% for sc in scs %}
                                                 {% if sc.attribute == 'is' %}
+                                                    <tr>
                                                     <th>{{ sc.course.c_id }}</th>
                                                     <th>{{ sc.course.name }}</th>
                                                     <th>{{ sc.course.credit }}</th>
                                                     <th>{{ sc.grade }}分</th>
+                                                    </tr>
                                                 {% endif %}
                                             {% endfor %}
 
