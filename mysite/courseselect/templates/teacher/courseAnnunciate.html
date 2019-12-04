@@ -16,61 +16,63 @@
   <div class="navigation">
     <ul>
       <li><a class="active" href="{% url 'courseselect:tea_courseAnnunciate' %}"><span class="navIcon" id="annunciate"></span><p>选课公告</p></a></li>
-      <li><a href="{% url 'courseselect:tea_courseResult' %}"><span class="navIcon" id="result"></span><p>选课结果</p></a></li>
-      <li><a href="{% url 'courseselect:tea_courseDelete' %}"><span class="navIcon" id="delete"></span><p>退课</p></a></li>
+      <li><a href="{% url 'courseselect:tea_courseResult' %}"><span class="navIcon" id="result"></span><p>选课结果</p></a></li> 
       <li><a href="{% url 'courseselect:tea_courseScore' %}"><span class="navIcon" id="schedule"></span><p>成绩录入</p></a></li>
       <li><a href="{% url 'courseselect:tea_mySchedule' %}"><span class="navIcon" id="schedule"></span><p>我的课表</p></a></li>
     </ul>
   </div>
   <div class="contain">
-    <header><h3>教师课程管理系统</h3><span><label></label>｜<a href="course_select" class="safeExit">安全退出</a></span></header>
-    
+    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ name }}！ <a href="{% url 'courseselect:logout' %}"
+                                                      class="safeExit">退出</a></span></header>
     <div class="main">
-      <ul class="nav nav-tabs nav-justified" id="headNav">
-        <li data="openCourse" class="active"><a data-toggle="tab" href="#part1">公选课</a></li>
-        <li data="labCourse"><a data-toggle="tab" href="#part1">实验课</a></li>
-        <li data="dirCourse"><a data-toggle="tab" href="#part1">方向课</a></li>
-      </ul>
+        <ul class="nav nav-tabs nav-justified" id="headNav">
+            <li data="openCourse" class="active"><a data-toggle="tab" href="#part1">公告</a></li>
 
-      <div class="white">
-      <div class="tab-content">
-        <div id="part1" class="tab-pane fade in active">
-          <div class="timeDiv">
-            <p><small>开始时间：</small><span class="orangeTime"></span></p>
-          </div>  
-          <div class="panel-group" id="accordion1">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion1" 
-                     href="#collapseOne">
-                    <span class="glyphicon glyphicon-hand-right"></span> 选课通知
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  <div class="annouceImg" id="annouce1">
-                    <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
-                    <p></p>
-                    <iframe src="" frameborder="0" scrolling="anto" name="main" id="printID"
-                    style=" VISIBILITY: inherit;  Z-INDEX: 1;">
-                     </iframe>
-                  </div>
-                    <button class="btn btn-info print">打印</button>
-                </div>
-              </div>
-            </div>
-          </div><!-- panel-group 结束-->
-        </div><!-- part1 结束 -->
-      </div><!-- white 结束 -->
-    </div><!-- main 结束 -->
-  </div><!-- contain 结束 -->
-   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-   <script src="{% static '/bootstrap/js/jquery-3.1.1.min.js' %}"></script>
-   <!-- 包括所有已编译的插件 -->
-   <script src="{% static '/bootstrap/js/bootstrap.min.js'%}"></script>
-   <script src="{% static '/js/cookies.js' %}"></script>
-   <script src="{% static '/js/teacher_courseAunnciate.js' %}"></script>
+        </ul>
+
+        <div class="white">
+            <div class="tab-content">
+                <div id="part1" class="tab-pane fade in active">
+                    <div class="timeDiv">
+                        <p>
+                            <small>开始时间：</small>
+                            <span class="orangeTime">{{ time.check_time|date:"Y-m-d H:i:s" }}</span></p>
+                    </div>
+                    <div class="panel-group" id="accordion1">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion1"
+                                       href="#collapseOne">
+                                        <span class="glyphicon glyphicon-hand-right"></span> 选课通知
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <p style="text-align:center;">
+                                        &nbsp2019&nbsp~&nbsp2020&nbsp学年下学期选课于&nbsp2019&nbsp年&nbsp12月&nbsp31日开放</p>
+                                    <div class="annouceImg" id="annouce1">
+                                        <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
+
+                                        <iframe src="" frameborder="0" scrolling="auto" name="main" id="printID"
+                                                style=" VISIBILITY: inherit;  Z-INDEX: 1;">
+                                        </iframe>
+                                    </div>
+                                    <!--                    <button class="btn btn-info print">打印</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- panel-group 结束-->
+                </div><!-- part1 结束 -->
+            </div><!-- white 结束 -->
+        </div><!-- main 结束 -->
+    </div><!-- contain 结束 -->
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="{% static 'bootstrap/js/jquery-3.1.1.min.js' %}"></script>
+    <!-- 包括所有已编译的插件 -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/cookies.js' %}"></script>
+    <script src="{% static 'js/courseAunnciate.js' %}"></script>
 </body>
 </html>

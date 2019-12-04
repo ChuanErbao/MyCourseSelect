@@ -355,16 +355,6 @@ def tea_courseAnnunciate(request):
     return render(request, 'teacher/courseAnnunciate.html', context)
 
 
-# 退课情况
-# def tea_courseDelete(request):
-#     tea_id = request.session['id']
-#     context={}
-#     list=[]
-#     context['list'] = list
-#     teacher = Teacher.objects.get(t_id=tea_id)
-#     context['name'] = teacher.name
-#     return render(request,'teacher/courseDelete.html',context)
-
 # 选课结果
 def tea_courseResult(request):
     if not request.session.get('is_login', None):
