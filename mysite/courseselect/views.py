@@ -170,9 +170,15 @@ def get_schedule(request):
     if request.session.get('is_login') is not True:
         redirect('courseselect:index')
     stu = get_object_or_404(Student, s_id=request.session['id'])
+    scs = StudentCourse.objects.filter(student=stu)
+    courses = []
+    for sc in scs:
+        courses.append(sc.course)
     context = {
         'name': stu.name,
+        'courses': courses,
     }
+    courses = sorted(courses, key=lambda course: course.weekdays)
     return render(request, 'student/mySchedule.html', context=context)
 
 
