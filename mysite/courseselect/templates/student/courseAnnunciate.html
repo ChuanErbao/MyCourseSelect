@@ -15,7 +15,7 @@
       <![endif]-->
     <link rel="stylesheet" href="{% static 'css/courseSystem.css' %}">
     <link rel="stylesheet" href="{% static 'css/courseAunnciate.css' %}">
-   <link rel="shortcut icon" href="{% static '/img/favicon.ico'%}">
+    <link rel="shortcut icon" href="{% static '/img/favicon.ico' %}">
 </head>
 <body>
 
@@ -50,11 +50,11 @@
                     <div class="timeDiv">
                         <p>
                             {% if is_start == 0 %}
-                            <b>开始时间：</b>
-                            <span class="orangeTime">{{ time.start_time|date:"Y-m-d H:i:s" }}</span>
+                                <b>开始时间：</b>
+                                <span class="orangeTime">{{ time.start_time|date:"Y-m-d H:i:s" }}</span>
                             {% else %}
-                            <b>结束时间：</b>
-                            <span class="orangeTime">{{ time.end_time|date:"Y-m-d H:i:s" }}</span>
+                                <b>结束时间：</b>
+                                <span class="orangeTime">{{ time.end_time|date:"Y-m-d H:i:s" }}</span>
                             {% endif %}
                         </p>
                     </div>
@@ -64,18 +64,19 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion1"
                                        href="#collapseOne">
-                                        <span class="glyphicon glyphicon-hand-right"></span> 选课通知
+                                        <span class="glyphicon glyphicon-hand-right"></span> 选课公告通知
                                     </a>
                                 </h4>
 
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    <div class="annouceImg" id="annouce1">
+                            <div id="collapseOne" class="panel-collapse collapse in" >
+                                <div class="panel-body" style="text-align:left;">
+                                    <div class="annouceImg" id="annouce1" >
                                         <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
-                                    {% for post in posts %}
-                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                                {% endfor %}
+                                        <t>当前最热课程：</t><hr />
+                                        {% for post in posts %}
+                                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a><hr />
+                                        {% endfor %}
                                         <iframe src="" frameborder="0" scrolling="auto" name="main" id="printID"
                                                 style=" VISIBILITY: inherit;  Z-INDEX: 1;">
                                         </iframe>

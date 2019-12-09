@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国科大网上选课系统</title>
+    <!-- 引入 Bootstrap -->
+    <link href="{% static  'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+    <link rel="stylesheet" href="{% static 'css/courseSystem.css' %}">
+    <link rel="stylesheet" href="{% static 'css/courseAunnciate.css' %}">
+    <link rel="shortcut icon" href="{% static '/img/favicon.ico' %}">
+</head>
+<body>
+
+<div class="navigation">
+    <ul>
+        <li><a class="active" href="{% url 'courseselect:stu_index' %}"><span class="navIcon" id="annunciate"></span>
+            <p>选课公告</p></a></li>
+        <li><a href="{% url 'courseselect:select' %}"><span class="navIcon" id="online"></span>
+            <p>网上选课</p></a></li>
+        <li><a href="{% url 'courseselect:preselected' %}"><span class="navIcon" id="online"></span>
+            <p>课程收藏</p></a></li>
+        <li><a href="{% url 'courseselect:selected' %}"><span class="navIcon" id="result"></span>
+            <p>已选课程</p></a></li>
+        <li><a href="{% url 'courseselect:schedule' %}"><span class="navIcon" id="schedule"></span>
+            <p>我的课表</p></a></li>
+        <li><a href="{% url 'courseselect:grade' %}"><span class="navIcon" id="ach"></span>
+            <p>查询成绩</p></a></li>
+    </ul>
+</div>
+<div class="contain">
+    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ name }}！ <a href="{% url 'courseselect:logout' %}"
+                                                      class="safeExit">退出</a></span></header>
+    <div style="padding:5px 24px 24px 24px;">
+
+                <article >
+                    <ul class="nav nav-tabs nav-justified" id="headNav">
+                        <li data="openCourse" class="active"><a data-toggle="tab" href="#part1">{{ post.title }}</a>
+                        </li>
+                    </ul>
+                    {{ post.body|safe }}
+                </article>
+    </div><!-- contain 结束 -->
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="{% static 'bootstrap/js/jquery-3.1.1.min.js' %}"></script>
+    <!-- 包括所有已编译的插件 -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/cookies.js' %}"></script>
+    <script src="{% static 'js/courseAunnText.js' %}"></script>
+</body>
+</html>

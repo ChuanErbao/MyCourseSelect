@@ -369,7 +369,7 @@ def post_detail(request, pk):
             'markdown.extensions.toc'
         ]
     )
-    return render(request, 'blog/detail.html', context=context)
+    return render(request, 'student/courseAnnuText.html', context=context)
 
 
 
