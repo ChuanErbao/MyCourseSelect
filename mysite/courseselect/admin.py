@@ -91,4 +91,10 @@ class TeacherClassAdmin(admin.ModelAdmin):
     list_display = ['teacher', 'course']
 
 
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    fields = ('title', 'body',)
+    list_display = ['title', 'created_time']
+
+
 

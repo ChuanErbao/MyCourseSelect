@@ -9,6 +9,7 @@ import os
 import csv
 import xlwt
 from django.http import JsonResponse
+import markdown
 import xlrd
 from django.http import FileResponse 
 from django.views.decorators.csrf import csrf_exempt
@@ -81,6 +82,7 @@ def stu_index(request):
         now = timezone.now()
         pk = request.session['id']
         stu = get_object_or_404(Student, s_id=pk)
+        posts = Post.objects.all()
         name = stu.name
         s_id = stu.s_id
         time = Date.objects.all()[0]
@@ -93,6 +95,7 @@ def stu_index(request):
             'id': s_id,
             'time': time,
             'is_start': is_start,
+            'posts': posts,
         }
         return render(request, 'student/courseAnnunciate.html', context=context)
 
@@ -350,6 +353,23 @@ def get_course_pre(request, s_id, c_id):
         return HttpResponse("与" + conflict.name + '冲突')
     else:
         return HttpResponse("选课人数已满")
+
+
+# 公告内容
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    context = {
+        'post': post,
+    }
+    post.body = markdown.markdown(
+        post.body,
+        extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.toc'
+        ]
+    )
+    return render(request, 'blog/detail.html', context=context)
 
 
 

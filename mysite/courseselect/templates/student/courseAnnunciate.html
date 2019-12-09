@@ -67,12 +67,15 @@
                                         <span class="glyphicon glyphicon-hand-right"></span> 选课通知
                                     </a>
                                 </h4>
+
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     <div class="annouceImg" id="annouce1">
                                         <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
-
+                                    {% for post in posts %}
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                {% endfor %}
                                         <iframe src="" frameborder="0" scrolling="auto" name="main" id="printID"
                                                 style=" VISIBILITY: inherit;  Z-INDEX: 1;">
                                         </iframe>

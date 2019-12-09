@@ -1,6 +1,9 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+import markdown
+from django.utils.html import strip_tags
+from django.shortcuts import reverse
 
 
 # Create your models here.
@@ -184,4 +187,32 @@ class Date(models.Model):
 # class ClassroomTime(models.Model):
 #     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name='教室')
 #     week =
+
+class Post(models.Model):
+    title = models.CharField(max_length=20, verbose_name="公告标题")
+    body = models.TextField(verbose_name="正文")
+    created_time = models.DateTimeField(auto_now=True)
+    excerpt = models.CharField(max_length=100, verbose_name="摘要")
+
+    # 复写save实现摘要功能
+    def save(self, *args, **kwargs):
+        if not self.excerpt:
+            md = markdown.Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+            ])
+            self.excerpt = strip_tags(md.convert(self.body))[:54]
+
+        super(Post, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('courseselect:post_detail', kwargs={'pk': self.pk})
+
+    class Meta:
+        ordering = ['-created_time']
+        verbose_name_plural = '公告'
+        verbose_name = '公告'
 
