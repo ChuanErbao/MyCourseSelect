@@ -516,11 +516,21 @@ def tea_uploadScore(request):
         return redirect('courseselect:index')
     course_no = request.POST.get('course_no')
     # 1 获取前端传输的文件对象,并将其写入内存
-    file_obj = request.FILES.get('file')
+    try:
+        file_obj = request.FILES.get('file')
+    except:
+        response = {}
+        response['msg'] = "加载文件失败"
+        return JsonResponse(response)
     file = "templates/" + file_obj.name
     curPath = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(curPath, file)
-    fp = open(path, 'wb+')
+    try:
+        fp = open(path, 'wb+')
+    except:
+        response = {}
+        response['msg'] = "打开文件失败"
+        return JsonResponse(response)
     # chunks将对应的文件数据转换成若干片段, 分段写入, 可以有效提 高文件的写入速度, 适用于2.5M以上的文件
     for chunk in file_obj.chunks():
         fp.write(chunk)
