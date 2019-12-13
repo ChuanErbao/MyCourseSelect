@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ff24231-b53a-45c0-9fcc-f29d9ea6b73a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/courseselect/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/courseselect/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="2ff24231-b53a-45c0-9fcc-f29d9ea6b73a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +35,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/courseselect/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="534" column="26" lean-forward="true" selection-start-line="534" selection-start-column="26" selection-end-line="534" selection-end-column="26" />
+            <state relative-caret-position="493">
+              <caret line="532" column="37" lean-forward="true" selection-start-line="532" selection-start-column="37" selection-end-line="532" selection-end-column="37" />
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
               </folding>
@@ -73,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-891">
-              <caret line="27" column="80" selection-start-line="27" selection-start-column="68" selection-end-line="27" selection-end-column="80" />
+            <state relative-caret-position="-324">
+              <caret line="27" column="65" lean-forward="true" selection-start-line="27" selection-start-column="65" selection-end-line="27" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -250,6 +248,13 @@
             <path>
               <item name="mysite" type="b2602c69:ProjectViewProjectNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
+              <item name="courseselect" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="teacher" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mysite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mysite" type="462c0819:PsiDirectoryNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -388,12 +393,12 @@
       <workItem from="1575861638514" duration="1725000" />
       <workItem from="1575890343109" duration="7537000" />
       <workItem from="1576161696349" duration="1780000" />
-      <workItem from="1576202735960" duration="10516000" />
+      <workItem from="1576202735960" duration="10912000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="223653000" />
+    <option name="totallyTimeSpent" value="224049000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -773,16 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/userlogin/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="86" column="23" lean-forward="true" selection-start-line="86" selection-start-column="23" selection-end-line="86" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/courseselect/templates/teacher/courseResult.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1620">
@@ -794,13 +789,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
           <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-891">
-          <caret line="27" column="80" selection-start-line="27" selection-start-column="68" selection-end-line="27" selection-end-column="80" />
         </state>
       </provider>
     </entry>
@@ -824,10 +812,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-324">
+          <caret line="27" column="65" lean-forward="true" selection-start-line="27" selection-start-column="65" selection-end-line="27" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/userlogin/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="86" column="23" lean-forward="true" selection-start-line="86" selection-start-column="23" selection-end-line="86" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/courseselect/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="534" column="26" lean-forward="true" selection-start-line="534" selection-start-column="26" selection-end-line="534" selection-end-column="26" />
+        <state relative-caret-position="493">
+          <caret line="532" column="37" lean-forward="true" selection-start-line="532" selection-start-column="37" selection-end-line="532" selection-end-column="37" />
           <folding>
             <element signature="e#0#73#0" expanded="true" />
           </folding>
