@@ -39,6 +39,8 @@ def login(request):
             try:
                 user = User.objects.get(pk=u_id)
             except:
+                response = {}
+                response['msg'] = '用户不存在'
                 return HttpResponse('用户不存在！')
             if user.kind != kind:
                 return HttpResponse('请选择正确的用户类型！')
@@ -515,7 +517,7 @@ def tea_uploadScore(request):
     course_no = request.POST.get('course_no')
     # 1 获取前端传输的文件对象,并将其写入内存
     file_obj = request.FILES.get('file')
-    file = "media/" + file_obj.name
+    file = "templates/" + file_obj.name
     curPath = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(curPath, file)
     fp = open(path, 'wb+')
@@ -559,7 +561,7 @@ def tea_getStuMsg(request):
     # 3 将学生信息写入文件
     curPath = os.path.abspath(os.path.dirname(__file__))
     filename = course_no + '_course_stuMsg.xls'
-    file = "media/" + filename
+    file = "templates/" + filename
     filepath = os.path.join(curPath, file)
 
     # 因为输入都是Unicode字符，这里使用utf-8，免得来回转换

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ff24231-b53a-45c0-9fcc-f29d9ea6b73a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html" beforeDir="false" afterPath="$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/courseselect/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/courseselect/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/courseselect/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="561" column="17" selection-start-line="561" selection-start-column="17" selection-end-line="561" selection-end-column="17" />
+            <state relative-caret-position="54">
+              <caret line="44" column="33" lean-forward="true" selection-start-line="44" selection-start-column="33" selection-end-line="44" selection-end-column="33" />
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
               </folding>
@@ -245,6 +244,18 @@
             <path>
               <item name="mysite" type="b2602c69:ProjectViewProjectNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
+              <item name="courseselect" type="462c0819:PsiDirectoryNode" />
+              <item name="media" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mysite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mysite" type="462c0819:PsiDirectoryNode" />
+              <item name="courseselect" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mysite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mysite" type="462c0819:PsiDirectoryNode" />
               <item name="mysite" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -383,12 +394,12 @@
       <workItem from="1575861638514" duration="1725000" />
       <workItem from="1575890343109" duration="7537000" />
       <workItem from="1576161696349" duration="1780000" />
-      <workItem from="1576202735960" duration="7403000" />
+      <workItem from="1576202735960" duration="8488000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="220540000" />
+    <option name="totallyTimeSpent" value="221625000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -792,16 +803,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/courseselect/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="30" column="40" lean-forward="true" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/courseselect/templates/teacher/courseScore.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-891">
@@ -819,10 +820,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/courseselect/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="30" column="40" lean-forward="true" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/courseselect/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="561" column="17" selection-start-line="561" selection-start-column="17" selection-end-line="561" selection-end-column="17" />
+        <state relative-caret-position="54">
+          <caret line="44" column="33" lean-forward="true" selection-start-line="44" selection-start-column="33" selection-end-line="44" selection-end-column="33" />
           <folding>
             <element signature="e#0#73#0" expanded="true" />
           </folding>
