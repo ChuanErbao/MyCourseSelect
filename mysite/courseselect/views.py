@@ -54,7 +54,7 @@ def login(request):
                     else:
                         tea = get_object_or_404(Teacher, t_id=u_id)
                         context = {'name': tea.name}
-                        return render(request, 'teacher/courseAnnunciate.html', context=context)
+                        return redirect('courseselect:tea_courseAnnunciate')
     else:
         form = UserForm()
     return render(request, 'courseselect/index.html', context={'form': form})
@@ -515,7 +515,7 @@ def tea_uploadScore(request):
     course_no = request.POST.get('course_no')
     # 1 获取前端传输的文件对象,并将其写入内存
     file_obj = request.FILES.get('file')
-    file = "templates/" + file_obj.name
+    file = "media/" + file_obj.name
     curPath = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(curPath, file)
     fp = open(path, 'wb+')
@@ -559,7 +559,7 @@ def tea_getStuMsg(request):
     # 3 将学生信息写入文件
     curPath = os.path.abspath(os.path.dirname(__file__))
     filename = course_no + '_course_stuMsg.xls'
-    file = "templates/" + filename
+    file = "media/" + filename
     filepath = os.path.join(curPath, file)
 
     # 因为输入都是Unicode字符，这里使用utf-8，免得来回转换
