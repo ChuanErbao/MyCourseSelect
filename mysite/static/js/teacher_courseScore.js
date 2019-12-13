@@ -19,6 +19,9 @@ btns.forEach(ele => {
         }
         $.ajax({
             type: "post",
+            headers:{
+                 "X-CSRFToken": csrftoken
+            },
             url: $('#url').val(),
             dataType: "json",
             data: formData,
