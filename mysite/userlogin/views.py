@@ -7,6 +7,7 @@ import smtplib
 import json
 import random
 from .forms import UserForm
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -57,20 +58,21 @@ def forget_password_do(request):
             username=request.GET.get("user")
             api=request.GET.get("api")
             typeId=request.GET.get("typeId")
+            print('获取用户')
         except:
             response["res"]="0"
+            print('获取用户失败')
             return JsonResponse(response)
 
         # 获取数据库数据
         try:
-            user=User.objects.get(username=username)
-            if str(user.role)==typeId:
-                print(typeId)
-                response["res"]="2"
-                response["mail_address"]=user.mail_address
-            else:
-                response["res"]="0"
+            user=get_object_or_404(User, u_id=username)
+            print('用户邮箱：', user.email)
+            print(typeId)
+            response["res"]="2"
+            response["mail_address"]=user.email
         except:
+            print('获取用户邮箱失败')
             response["res"]="0"
         return JsonResponse(response)
     elif api=="sendVerification":
