@@ -348,6 +348,7 @@ def get_course_pre(request, s_id, c_id):
         c1 = Pre.objects.get(student=Student.objects.get(s_id=s_id), course=Course.objects.get(c_id=c_id))
         c1.delete()
         aim_course.selected_now += 1
+        aim_course.save()
         return redirect(reverse('courseselect:preselected'))
     elif not tag and not full:
         return HttpResponse("与" + conflict.name + '冲突')
