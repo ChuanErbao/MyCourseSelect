@@ -17,13 +17,8 @@ btns.forEach(ele => {
             alert("请选择.xls的文件");
             return
         }
-        var token = $.cookie('csrftoken');
         $.ajax({
             type: "post",
-
-            headers:{
-                 "X-CSRFToken": token
-            },
             url: $('#url').val(),
             dataType: "json",
             data: formData,
