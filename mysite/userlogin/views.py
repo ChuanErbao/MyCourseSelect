@@ -43,12 +43,14 @@ def login(request):
     return render(request, 'index.html', context={'form': form})
 
 
-def forget_password(request): 
+def forget_password(request):
+    print('进入忘记密码')
     return render(request,'forgetPsw.html') 
 
 verification =""
 
 def forget_password_do(request):
+    print('sadsasdasdasdasdasdasdada')
     global verification
     response={}
     api=request.GET.get("api")
@@ -56,6 +58,8 @@ def forget_password_do(request):
     if api=="findInformation":
         try:
             username=request.GET.get("user")
+            print(username)
+            print(type(username))
             api=request.GET.get("api")
             typeId=request.GET.get("typeId")
             print('获取用户')
@@ -128,7 +132,7 @@ def forget_password_do(request):
         print(verification)
         # 为了方便测试，111111为默认可通过的验证码
         if send_verification==verification or send_verification=="111111":
-            user=User.objects.get(username=username)
+            user=User.objects.get(u_id=username)
             user.password=password
             user.save()
             response["res"]="2"

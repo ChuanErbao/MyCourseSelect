@@ -26,7 +26,7 @@
     </ul>
   </div>
   <div class="container" id="part1">
-    <input hidden type="text" id="url" name="url" value="{% url 'user_login:forget_password_do' %}"></input>
+    <input hidden type="text" id="url" name="url" value="{% url 'user_login:find' %}"></input>
     <p class="form-group" id="userP">
       <label for="user">校园通账号：</label>
       <input type="text" id="user" class="form-control" name="user" data-container="body" data-toggle="popover" data-placement="top" data-content="请正确输入校园通账号" required>
@@ -38,7 +38,7 @@
     <button type="button" id="submit1" class="btn btn-primary btn-success btn-block submit" name="next">下一步 <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
   </div>
   <div class="container" id="part2">
-    <input hidden type="text" id="url" name="url" value="{% url 'user_login:forget_password_do' %}"></input>
+    <input hidden type="text" id="url" name="url" value="{% url 'user_login:find' %}"></input>
     <label for="tel">邮箱：</label>
     <p class="input-group form-group" id="telP">
       <input type="mail_address" id="mail_address" class="form-control" name="mail_address" readonly>

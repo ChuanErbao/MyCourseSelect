@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'', include('courseselect.urls')),
     url(r'userlogin/', include('userlogin.urls')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
     # url('refresh_captcha/', views.captcha_refresh),    # 刷新验证码，ajax
 ]
