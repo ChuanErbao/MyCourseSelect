@@ -3,7 +3,7 @@
 中国科学院大学高级软件工程课程设计
 
 # 使用说明
-```
+```shell
 # 克隆仓库
 git clone git@github.com:ChuanErbao/MyCourseSelect.git
 cd MyCourseSelect
@@ -29,5 +29,6 @@ python manage.py runserver
 ```
 ## url
 用户:127.0.0.1:8000
-管理员:127.0.0.1/admin
+
+管理员:127.0.0.1:8000/admin
 
