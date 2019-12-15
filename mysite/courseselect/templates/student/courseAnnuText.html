@@ -36,15 +36,12 @@
     </ul>
 </div>
 <div class="contain">
-    <header><h3>国科大网上选课系统</h3><span>欢迎：{{ name }}！ <a href="{% url 'courseselect:logout' %}"
+    <header><h3>国科大网上选课系统</h3><span> <a href="{% url 'courseselect:logout' %}"
                                                       class="safeExit">退出</a></span></header>
     <div style="padding:5px 24px 24px 24px;">
 
                 <article >
-                    <ul class="nav nav-tabs nav-justified" id="headNav">
-                        <li data="openCourse" class="active"><a data-toggle="tab" href="#part1">{{ post.title }}</a>
-                        </li>
-                    </ul>
+
                     {{ post.body|safe }}
                 </article>
     </div><!-- contain 结束 -->
