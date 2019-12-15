@@ -2,30 +2,33 @@
 # MyCourseSelect
 中国科学院大学高级软件工程课程设计
 
-# 配置
-## 管理员账户
+# 使用说明
+```shell
+# 克隆仓库
+git clone git@github.com:ChuanErbao/MyCourseSelect.git
+cd MyCourseSelect
+pip install virtualenv
+# 搭建虚拟环境
+virtualenv --no-site-packages venv
+# 激活虚拟环境
+source venv/bin/activate
+# 安装项目所需的包
+pip install -r requirements.txt
 
-user: admin
+# 数据库迁移
+cd mysite/
+python manage.py makemigrations
+python manage.py migrate
 
-passwd: 123
+# 创建超级用户
+python manage.py createsuperuser
 
-# 学生用户
-user： 201928015059034
-passwd：123
+# 启动
+python manage.py runserver
 
-# 教师用户
-user：1、2、3
-passwd：123
-
-## django版本
-
-2.1.8
-
-安装：
 ```
-pip install django==2.1.8
-pip install django-import-export
-```
-使用django-simpleui美化管理员界面
-使用django-import-export进行文件上传下载
-使用django-simple-captcha实现验证码
+## url
+用户:127.0.0.1:8000
+
+管理员:127.0.0.1:8000/admin
+
