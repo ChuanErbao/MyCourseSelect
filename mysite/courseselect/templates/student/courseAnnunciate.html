@@ -64,7 +64,7 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion1"
                                        href="#collapseOne">
-                                        <span class="glyphicon glyphicon-hand-right"></span> 选课公告通知
+                                        <span class="glyphicon glyphicon-hand-right"></span> 选课公告
                                     </a>
                                 </h4>
 
@@ -73,7 +73,7 @@
                                 <div class="panel-body" style="text-align:left;">
                                     <div class="annouceImg" id="annouce1" >
                                         <!-- <iframe id="" name="" src="../file/open.html" frameborder="0"></iframe> -->
-                                        <t>当前最热课程：</t><hr />
+
                                         {% for post in posts %}
                                             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a><hr />
                                         {% endfor %}

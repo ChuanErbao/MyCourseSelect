@@ -384,6 +384,7 @@ def tea_courseAnnunciate(request):
         return redirect('courseselect:index')
     tea_id = request.session['id']
     context = {}
+    posts = Post.objects.all()
     list = []
     now = timezone.now()
     context['list'] = list
@@ -396,6 +397,7 @@ def tea_courseAnnunciate(request):
         is_start = 1
     context['is_start'] = is_start
     context['time'] = time
+    context['posts'] = posts
 
 
     return render(request, 'teacher/courseAnnunciate.html', context)
@@ -431,10 +433,7 @@ def tea_mySchedule(request):
     tea_id = request.session['id']
     teacher = Teacher.objects.get(t_id=tea_id)
  
-    scs = TeacherCourse.objects.filter(teacher=teacher)
-    courses = []
-    for sc in scs:
-        courses.append(sc.course)
+    courses = Course.objects.filter(teacher=Teacher.objects.get(t_id=tea_id))
     context = {
         'name': teacher.name,
         'courses': courses,

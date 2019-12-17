@@ -11,6 +11,19 @@
       <link rel="stylesheet" href="{% static '/css/courseDelete.css'%}">
       <link rel="shortcut icon" href="{% static '/img/favicon.ico'%}">
       <script src="{% static '/js/template-native.js'%}"></script>
+    <script language="javascript">
+    function printdiv(printpage)
+    {
+    var headstr = "<html><head><title></title></head><body>";
+    var footstr = "</body>";
+    var newstr = document.all.item(printpage).innerHTML;
+    var oldstr = document.body.innerHTML;
+    document.body.innerHTML = headstr+newstr+footstr;
+    window.print();
+    document.body.innerHTML = oldstr;
+    return false;
+    }
+</script>
 </head>
 <body>
 
